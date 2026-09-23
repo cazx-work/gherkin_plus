@@ -409,7 +409,7 @@ class FeatureFileRunner {
 
   ExecutableStep _matchStepToExecutableStep(StepRunnable step) {
     final executable = _steps.firstWhereOrNull(
-      (s) => s.expression.isMatch(step.debug.lineText),
+      (s) => s.expression.isMatch(step.stepText),
     );
 
     if (executable == null) {
@@ -452,7 +452,7 @@ class FeatureFileRunner {
   }
 
   Iterable<dynamic> _getStepParameters(StepRunnable step, ExecutableStep code) {
-    var parameters = code.expression.getParameters(step.debug.lineText);
+    var parameters = code.expression.getParameters(step.stepText);
     if (step.multilineStrings.isNotEmpty) {
       parameters = parameters.toList()..addAll(step.multilineStrings);
     }

@@ -8,14 +8,21 @@ import 'table.dart';
 
 class StepRunnable extends RunnableBlock {
   String _name;
+  final String keyword;
   String? description;
   GherkinTable? table;
   List<String> multilineStrings = <String>[];
 
-  StepRunnable(this._name, RunnableDebugInformation debug) : super(debug);
+  StepRunnable(
+    this._name,
+    RunnableDebugInformation debug, {
+    this.keyword = '',
+  }) : super(debug);
 
   @override
   String get name => _name;
+
+  String get stepText => debug.lineText.substring(keyword.length).trimLeft();
 
   @override
   void addChild(Runnable child) {
@@ -48,7 +55,7 @@ class StepRunnable extends RunnableBlock {
   }
 
   StepRunnable clone() {
-    final cloned = StepRunnable(_name, debug);
+    final cloned = StepRunnable(_name, debug, keyword: keyword);
     cloned.multilineStrings = multilineStrings.map((s) => s).toList();
     cloned.table = table?.clone();
 

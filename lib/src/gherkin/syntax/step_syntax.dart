@@ -35,7 +35,8 @@ class StepSyntax extends RegExMatchedGherkinSyntax<StepRunnable> {
     RunnableDebugInformation debug,
     GherkinDialect dialect,
   ) {
-    final runnable = StepRunnable(line, debug);
+    final keyword = pattern(dialect).firstMatch(line)?.group(1) ?? '';
+    final runnable = StepRunnable(line, debug, keyword: keyword);
     return runnable;
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import '../gherkin.dart';
 import 'feature_file_runner.dart';
+import 'gherkin/parameters/default_parameters.dart';
 import 'gherkin/parser.dart';
 import 'gherkin/runnables/feature_file.dart';
 
@@ -148,17 +149,7 @@ class GherkinRunner {
   }
 
   void _registerCustomParameters(Iterable<CustomParameter>? customParameters) {
-    _customParameters.add(FloatParameterLower());
-    _customParameters.add(FloatParameterCamel());
-    _customParameters.add(NumParameterLower());
-    _customParameters.add(NumParameterCamel());
-    _customParameters.add(IntParameterLower());
-    _customParameters.add(IntParameterCamel());
-    _customParameters.add(StringParameterLower());
-    _customParameters.add(StringParameterCamel());
-    _customParameters.add(WordParameterLower());
-    _customParameters.add(WordParameterCamel());
-    _customParameters.add(PluralParameter());
+    _customParameters.addAll(defaultStepParameters());
 
     if (customParameters != null) {
       _customParameters.addAll(customParameters);
