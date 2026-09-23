@@ -1,18 +1,27 @@
 # gherkin_plus
 
-A Gherkin parser and test runner for modern Dart applications. The package keeps
-step definitions, worlds, hooks, reporters, and feature execution independent
-of Flutter so a Flutter adapter can provide `WidgetTester` behavior separately.
+A Gherkin parser and test runner for modern Dart applications. The core package
+keeps step definitions, worlds, hooks, reporters, and feature execution
+independent of Flutter. Flutter adapters can integrate `WidgetTester` and other
+application-specific test harnesses separately.
 
-The modern parser boundary is available through `ParserBridge`, which maps
-`cucumber_gherkin` Cucumber Messages into the package's internal feature model:
+For direct access to the modern parser boundary, `ParserBridge` maps
+`cucumber_gherkin` Cucumber Messages into the package's internal feature model.
+It is currently a standalone parsing API, not the parser used by execution.
+`GherkinRunner` and `FeatureStepSelector` use the execution parser so their
+behavior stays aligned. The bridge model does not yet preserve all execution
+constructs, including backgrounds, expanded scenario-outline rows, data tables,
+and doc strings; unifying these paths requires completing that mapping first.
 
 ```dart
 final feature = await ParserBridge().parse(source, uri: 'features/sign_in.feature');
 ```
 
-Use `GherkinConfiguration` with `GherkinRunner(configuration).run()` for new
-code. `TestConfiguration` and `execute()` remain available during migration.
+For new runner code, use `GherkinConfiguration` with
+`GherkinRunner(configuration).run()`. `GherkinConfiguration` is an alias for
+`TestConfiguration`; the older `execute()` entry point remains available.
+Runner instances can execute multiple configurations; step definitions and
+custom parameters are registered afresh for each run.
 
 This implementation of Gherkin follows the conventions of [Cucumber](https://docs.cucumber.io/cucumber/) while providing an explicit Dart runner API.
 
@@ -38,44 +47,141 @@ The core package is independent of Flutter. Flutter-specific adapters can provid
 
 <!-- TOC -->
 
-- [dart_gherkin](#dart_gherkin)
-  - [Table of Contents](#table-of-contents)
-  - [Getting Started](#getting-started)
-    - [Configuration](#configuration)
-      - [features](#features)
-      - [tagExpression](#tagexpression)
-      - [order](#order)
-      - [defaultLanguage](#defaultlanguage)
-      - [stepDefinitions](#stepdefinitions)
-      - [customStepParameterDefinitions](#customstepparameterdefinitions)
-      - [hooks](#hooks)
-      - [attachments](#attachments)
-      - [reporters](#reporters)
-      - [createWorld](#createworld)
-      - [featureFileMatcher](#featurefilematcher)
-      - [featureFileReader](#featurefilereader)
-      - [stopAfterTestFailed](#stopaftertestfailed)
-  - [Features Files](#features-files)
-    - [Steps Definitions](#steps-definitions)
-      - [Given](#given)
-      - [Then](#then)
-      - [Expects Assertions](#expects-assertions)
-      - [Step Timeout](#step-timeout)
-      - [Multiline Strings](#multiline-strings)
-      - [Data tables](#data-tables)
-      - [Well known step parameters](#well-known-step-parameters)
-      - [Pluralization](#pluralization)
-      - [Custom Parameters](#custom-parameters)
-      - [World Context (per test scenario shared state)](#world-context-per-test-scenario-shared-state)
-      - [Assertions](#assertions)
-    - [Tags](#tags)
-    - [Languages](#languages)
-  - [Hooks](#hooks-1)
+- [Current API](#current-api)
+  - [Quick start](#quick-start)
+  - [Step-definition groups](#step-definition-groups)
+  - [Feature-step selection](#feature-step-selection)
+  - [Timeout aggregation](#timeout-aggregation)
+- [Legacy API guide](#getting-started)
+  - [Configuration](#configuration)
+  - [Feature files](#features-files)
+  - [Hooks](#hooks)
   - [Reporting](#reporting)
 
 <!-- /TOC -->
 
+## Current API
+
+The examples in this section use the current runner API. The longer guide below
+retains older direct-registration examples for users migrating existing suites.
+
+### Quick start
+
+Create a feature file such as `features/calculator.feature`:
+
+```gherkin
+Feature: Calculator
+  Scenario: Add a number
+    Given the calculator starts at 1
+    When I add 2
+    Then the result is 3
+```
+
+Define a world and group the steps that use it:
+
+```dart
+import 'package:gherkin_plus/gherkin.dart';
+
+class CalculatorWorld extends World {
+  int value = 0;
+}
+
+class CalculatorSteps implements StepDefinitionGroup<CalculatorWorld> {
+  @override
+  Iterable<StepDefinitionGeneric<CalculatorWorld>> get definitions => [
+    given1<int, CalculatorWorld>(
+      'the calculator starts at {int}',
+      (value, context) async {
+        context.world.value = value;
+      },
+    ),
+    when1<int, CalculatorWorld>(
+      'I add {int}',
+      (value, context) async {
+        context.world.value += value;
+      },
+    ),
+    then1<int, CalculatorWorld>(
+      'the result is {int}',
+      (expected, context) async =>
+          context.expectMatch(context.world.value, expected),
+    ),
+  ];
+}
+
+Future<void> main() async {
+  final configuration = GherkinConfiguration(
+    features: [RegExp(r'features/.*\.feature')],
+    stepDefinitionGroups: [CalculatorSteps()],
+    createWorld: (_) async => CalculatorWorld(),
+    reporters: [ProgressReporter(), TestRunSummaryReporter()],
+  );
+
+  await GherkinRunner(configuration).run();
+}
+```
+
+### Step-definition groups
+
+Implement `StepDefinitionGroup<TWorld>` to keep related definitions together
+with their scenario world type. Register groups with
+`GherkinConfiguration.stepDefinitionGroups`; groups can be used alongside
+individual entries in `stepDefinitions`. Use
+`flattenStepDefinitionGroups<TWorld>(groups)` when another API needs one flat
+definition list. Registration remains explicit; the package does not discover
+definitions through reflection.
+
+### Feature-step selection
+
+`FeatureStepSelector` can select definitions from in-memory source with
+`select(...)` or from a path with `selectFile(...)`. Pass the definitions and
+any custom parameters you use:
+
+```dart
+final definitions = flattenStepDefinitionGroups<CalculatorWorld>([
+  CalculatorSteps(),
+]);
+final selection = await const FeatureStepSelector().selectFile(
+  path: 'features/calculator.feature',
+  stepDefinitions: definitions,
+);
+
+if (selection.unmatchedSteps.isNotEmpty) {
+  throw StateError('Feature contains unmatched steps');
+}
+if (selection.ambiguousSteps.isNotEmpty) {
+  throw StateError('Feature contains ambiguous step definitions');
+}
+```
+
+The result includes the ordered, deduplicated `definitions` and per-step match
+details, including source locations and all matching candidates. Background
+steps and expanded scenario-outline rows are included. The selector reports
+unmatched and ambiguous steps but does not choose a winner or impose a failure
+policy; callers decide how to handle those diagnostics.
+
+### Timeout aggregation
+
+`maxStepDefinitionTimeout` returns the largest effective timeout among selected
+definitions. Definitions without their own timeout use the supplied default;
+an empty selection also uses that default. An optional buffer is added only
+when the caller requests one:
+
+```dart
+final timeout = maxStepDefinitionTimeout(
+  selection.definitions,
+  defaultTimeout: const Duration(seconds: 10),
+  buffer: const Duration(seconds: 2),
+);
+```
+
+This helper does not change runner configuration; consumers can use the result
+where their test harness needs an overall timeout.
+
 ## Getting Started
+
+This legacy-compatible walkthrough documents the existing API in detail. For
+new suites, start with [Current API](#current-api).
 
 See <https://docs.cucumber.io/gherkin/> for information on the Gherkin syntax and Behaviour Driven Development (BDD).
 
