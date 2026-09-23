@@ -1,4 +1,4 @@
-import 'package:gherkin_plus/src/gherkin/languages/language_service.dart';
+import 'package:gherkin_plus/gherkin.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -43,6 +43,15 @@ void main() {
       final dialect = service.getDialect('fr');
       expect(dialect, isNotNull);
       expect(dialect.when.contains("Lorsqu'"), true);
+    });
+
+    test('throws the correctly named exception for an unknown dialect', () {
+      final service = LanguageService()..initialise();
+
+      expect(
+        () => service.getDialect('unknown'),
+        throwsA(isA<GherkinDialectNotSupportedException>()),
+      );
     });
   });
 }

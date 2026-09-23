@@ -8,13 +8,11 @@ class LanguageService {
 
   String get defaultLanguage => _defaultLanguage;
 
-  GherkinDialect getDialect([
-    String? languageCode,
-  ]) {
+  GherkinDialect getDialect([String? languageCode]) {
     final code = languageCode ?? _defaultLanguage;
 
     if (_dialects[code] == null) {
-      throw GherkinDialogNotSupportedException(code);
+      throw GherkinDialectNotSupportedException(code);
     }
 
     return _dialects[code]!;
@@ -27,10 +25,9 @@ class LanguageService {
     // Map<String, dynamic> languagesJson =
     //     json.decode(langFile.readAsStringSync());
     kLanguagesJson.forEach((key, values) {
-      final dialect =
-          GherkinDialect.fromJson(values as Map<String, dynamic>).copyWith(
-        languageCode: key,
-      );
+      final dialect = GherkinDialect.fromJson(
+        values as Map<String, dynamic>,
+      ).copyWith(languageCode: key);
       setDialect(key, dialect);
     });
   }
