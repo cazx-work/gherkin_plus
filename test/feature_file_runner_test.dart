@@ -1,4 +1,4 @@
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 import 'package:gherkin_plus/src/expect/expect_mimic.dart';
 import 'package:gherkin_plus/src/feature_file_runner.dart';
 import 'package:gherkin_plus/src/gherkin/runnables/feature.dart';

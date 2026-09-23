@@ -1,4 +1,4 @@
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 
 import '../worlds/custom_world.world.dart';
 

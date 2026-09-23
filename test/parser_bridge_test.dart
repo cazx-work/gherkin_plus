@@ -1,4 +1,4 @@
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 import 'package:cucumber_messages/cucumber_messages.dart' as messages;
 import 'package:test/test.dart';
 

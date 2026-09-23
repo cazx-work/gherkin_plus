@@ -1,4 +1,4 @@
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 
 import 'en_dialect_mock.dart';
 

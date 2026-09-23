@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import '../gherkin.dart';
+import '../gherkin_plus.dart';
 import 'feature_file_runner.dart';
 import 'gherkin/cucumber_gherkin_parser.dart';
 import 'gherkin/parameters/default_parameters.dart';

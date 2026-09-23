@@ -1,4 +1,4 @@
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 import 'package:test/test.dart';
 import '../mocks/hook_mock.dart';
 

@@ -1,4 +1,4 @@
-import '../../../gherkin.dart';
+import '../../../gherkin_plus.dart';
 import '../cucumber_gherkin_parser.dart';
 import '../runnables/tags.dart';
 

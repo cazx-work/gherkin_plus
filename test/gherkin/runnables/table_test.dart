@@ -1,4 +1,4 @@
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 import 'package:gherkin_plus/src/gherkin/runnables/comment_line.dart';
 import 'package:gherkin_plus/src/gherkin/runnables/table.dart';
 import 'package:test/test.dart';

@@ -1,5 +1,5 @@
 
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 
 /// This step expects a multi-line string proceeding it
 ///

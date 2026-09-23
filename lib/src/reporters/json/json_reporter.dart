@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import '../../../gherkin.dart';
+import '../../../gherkin_plus.dart';
 import 'json_feature.dart';
 import 'json_scenario.dart';
 import 'json_step.dart';

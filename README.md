@@ -87,7 +87,7 @@ Feature: Calculator
 Define a world and group the steps that use it:
 
 ```dart
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 
 class CalculatorWorld extends World {
   int value = 0;
@@ -239,7 +239,7 @@ Granted the example is a little contrived but is serves to illustrate the proces
 To implement a step we have to create a method that will then be imported into our configuration.
 
 ``` dart
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 import '../worlds/custom_world.world.dart';
 
 StepDefinitionGeneric GivenTheNumbers() {
@@ -256,7 +256,7 @@ StepDefinitionGeneric GivenTheNumbers() {
 As you can see the `given2` method is invoked specifying two input parameters.  The third type `CalculatorWorld` is a special world context object that allow access context to pass between steps in the same scenario execution instance.  If you did not need a custom world object you can omit the type parameters completely.
 
 ``` dart
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 import '../worlds/custom_world.world.dart';
 
 StepDefinitionGeneric GivenTheNumbers() {
@@ -282,7 +282,7 @@ Now that we have a testable app, a feature file and a custom step definition we 
 
 ``` dart
 import 'dart:async';
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 import 'supporting_files/steps/given_the_numbers.step.dart';
 import 'supporting_files/steps/then_expect_numeric_result.step.dart';
 import 'supporting_files/steps/when_numbers_are_added.step.dart';
@@ -358,7 +358,7 @@ Place instances of any custom step definition classes `Given` , `Then` , `When` 
 
 ``` dart
 import 'dart:async';
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 import 'supporting_files/steps/given_the_numbers.step.dart';
 import 'supporting_files/steps/then_expect_numeric_result.step.dart';
 import 'supporting_files/steps/when_numbers_are_added.step.dart';
@@ -392,7 +392,7 @@ Place instances of any custom step parameters that you have defined.  These will
 
 ``` dart
 import 'dart:async';
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 import 'supporting_files/parameters/power_of_two.parameter.dart';
 import 'supporting_files/steps/given_the_numbers.step.dart';
 import 'supporting_files/steps/given_the_powers_of_two.step.dart';
@@ -427,7 +427,7 @@ Attachment are pieces of data you can attach to a running scenario.  This could 
 Attachments would typically be attached via a `Hook` for example `onAfterStep` .
 
 ```dart
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 
 class AttachScreenshotOnFailedStepHook extends Hook {
   /// Run after a step has executed
@@ -461,7 +461,7 @@ Previously, it was possible to redefine specific functions, now this happens thr
 
 ``` dart
 import 'dart:async';
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 import 'supporting_files/parameters/power_of_two.parameter.dart';
 import 'supporting_files/steps/given_the_numbers.step.dart';
 import 'supporting_files/steps/given_the_powers_of_two.step.dart';
@@ -569,7 +569,7 @@ Given Bob has logged in
 Would be implemented like so:
 
 ``` dart
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 
 class GivenWellKnownUserIsLoggedIn extends Given1<String> {
   @override
@@ -585,7 +585,7 @@ class GivenWellKnownUserIsLoggedIn extends Given1<String> {
 Alternatively, and the now recommended approach is to use the shorthand methods definitions `given, given1, given2, given3, given4 or given5` .
 
 ``` dart
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 
 StepDefinitionGeneric GivenWellKnownUserIsLoggedIn() {
   return given1(
@@ -615,7 +615,7 @@ Then I expect 10 apples
 Would be implemented like so:
 
 ``` dart
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 
 StepDefinitionGeneric ExpectTheAppleAmount() {
   return then1(
@@ -639,7 +639,7 @@ By default a step will timeout if it exceed the `defaultTimeout` parameter in th
 For example, the below sets the step's timeout to 10 seconds.
 
 ``` dart
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 
 class TapButtonNTimesStep extends When2WithWorld<String, int, World> {
   TapButtonNTimesStep()
@@ -658,7 +658,7 @@ class TapButtonNTimesStep extends When2WithWorld<String, int, World> {
 or using the shorthand method:
 
 ``` dart
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 
 StepDefinitionGeneric TapButtonNTimesStep() {
  return given2(
@@ -696,7 +696,7 @@ Maybe even include some numbers
 The matching step definition would then be:
 
 ``` dart
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 
 StepDefinitionGeneric GivenTheMultiLineComment() {
   return given2(
@@ -711,7 +711,7 @@ StepDefinitionGeneric GivenTheMultiLineComment() {
 #### Data tables
 
 ``` dart
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 
 /// This step expects a multiline string proceeding it
 ///
@@ -769,7 +769,7 @@ While the well know step parameter will be sufficient in most cases there are ti
 The below custom parameter defines a regex that matches the words "red", "green" or "blue". The matches word is passed into the function which is then able to convert the string into a Color object.  The name of the custom parameter is used to identity the parameter within the step text.  In the below example the word "colour" is used.  This is combined with the pre / post prefixes (which default to "{" and "}") to match to the custom parameter.
 
 ``` dart
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 
 enum Colour { red, green, blue }
 
@@ -791,7 +791,7 @@ class ColourParameter extends CustomParameter<Colour> {
 The step definition would then use this custom parameter like so:
 
 ``` dart
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 import 'colour_parameter.dart';
 
 StepDefinitionGeneric GivenIAddTheUsers() {
@@ -886,7 +886,7 @@ A hook is a point in the execution that custom code can be run.  Hooks can be ru
 To create a hook is easy.  Just inherit from `Hook` and override the method(s) that signifies the point in the process you want to run code at. Note that not all methods need to be override, just the points at which you want to run custom code.
 
 ``` dart
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 
 class HookExample extends Hook {
   /// The priority to assign to this hook.
@@ -932,7 +932,7 @@ Finally ensure the hook is added to the hook collection in your configuration fi
 
 ``` dart
 import 'dart:async';
-import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/gherkin_plus.dart';
 import 'supporting_files/hooks/hook_example.dart';
 import 'supporting_files/parameters/power_of_two.parameter.dart';
 import 'supporting_files/steps/given_the_numbers.step.dart';

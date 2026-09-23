@@ -1,4 +1,4 @@
-import '../../gherkin.dart';
+import '../../gherkin_plus.dart';
 
 class ProgressReporter extends StdoutReporter
     implements ScenarioReporter, StepReporter {
