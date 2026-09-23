@@ -25,6 +25,8 @@ class GherkinRunner {
 
   Future<void> execute(TestConfiguration testConfiguration) async {
     final config = testConfiguration.prepare();
+    _executableSteps.clear();
+    _customParameters.clear();
     _registerReporters(config.reporters);
     _registerHooks(config.hooks);
     _registerCustomParameters(config.customStepParameterDefinitions);
