@@ -12,12 +12,7 @@ class ParserBridge {
   Future<List<messages.Envelope>> parseMessages(
     String source, {
     required String uri,
-  }) async =>
-      generateMessages(
-        source,
-        uri,
-        const GherkinOptions(),
-      );
+  }) async => generateMessages(source, uri, const GherkinOptions());
 
   /// Returns a lightweight projection of the feature document.
   ///

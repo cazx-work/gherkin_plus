@@ -63,14 +63,11 @@ class StdoutReporter implements InfoReporter {
       case MessageLevel.warning:
         return kWarnColor;
       case MessageLevel.info:
-      return kNeutralColor;
+        return kNeutralColor;
     }
   }
 
-  void printMessageLine(
-    String message, [
-    String? colour,
-  ]) {
+  void printMessageLine(String message, [String? colour]) {
     if (supportsAnsiEscapes) {
       _writeln('${colour ?? kResetColor}$message$kResetColor');
     } else {
@@ -78,10 +75,7 @@ class StdoutReporter implements InfoReporter {
     }
   }
 
-  void printMessage(
-    String message, [
-    String? colour,
-  ]) {
+  void printMessage(String message, [String? colour]) {
     if (supportsAnsiEscapes) {
       _write('${colour ?? kResetColor}$message$kResetColor');
     } else {

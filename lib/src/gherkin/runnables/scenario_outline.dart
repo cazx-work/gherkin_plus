@@ -10,11 +10,7 @@ class ScenarioOutlineRunnable extends ScenarioRunnable {
   TagsRunnable? _pendingExampleTags;
   Iterable<ExampleRunnable> get examples => _examples;
 
-  ScenarioOutlineRunnable(
-    super.name,
-    super.description,
-    super.debug,
-  );
+  ScenarioOutlineRunnable(super.name, super.description, super.debug);
 
   @override
   void addChild(Runnable child) {
@@ -35,11 +31,9 @@ class ScenarioOutlineRunnable extends ScenarioRunnable {
 
   @override
   void onTagAdded(TagsRunnable tag) {
-    examples.forEach(
-      (ex) {
-        ex.addTag(tag.clone(inherited: true));
-      },
-    );
+    examples.forEach((ex) {
+      ex.addTag(tag.clone(inherited: true));
+    });
   }
 
   Iterable<ScenarioRunnable> expandOutlinesIntoScenarios() {
@@ -50,43 +44,42 @@ class ScenarioOutlineRunnable extends ScenarioRunnable {
     }
 
     final scenarios = <ScenarioRunnable>[];
-    examples.forEach(
-      (example) {
-        example.table!.asMap().toList(growable: false).asMap().forEach(
-          (exampleIndex, exampleRow) {
-            final exampleName = [
-              name,
-              'Examples:',
-              if (example.name.isNotEmpty) example.name,
-              '(${exampleIndex + 1})',
-            ].join(' ');
+    examples.forEach((example) {
+      example.table!.asMap().toList(growable: false).asMap().forEach((
+        exampleIndex,
+        exampleRow,
+      ) {
+        final exampleName = [
+          name,
+          'Examples:',
+          if (example.name.isNotEmpty) example.name,
+          '(${exampleIndex + 1})',
+        ].join(' ');
 
-            final clonedSteps = steps.map((step) => step.clone()).toList();
+        final clonedSteps = steps.map((step) => step.clone()).toList();
 
-            final scenarioRunnable = ScenarioExpandedFromOutlineExampleRunnable(
-              exampleName,
-              description,
-              debug,
-            );
-
-            exampleRow.forEach(
-              (parameterName, value) {
-                scenarioRunnable.setStepParameter(parameterName, value ?? '');
-                clonedSteps.forEach(
-                  (step) => step.setStepParameter(parameterName, value ?? ''),
-                );
-              },
-            );
-
-            [...tags, ...example.tags]
-                .forEach((t) => scenarioRunnable.addTag(t.clone()));
-
-            clonedSteps.forEach((step) => scenarioRunnable.addChild(step));
-            scenarios.add(scenarioRunnable);
-          },
+        final scenarioRunnable = ScenarioExpandedFromOutlineExampleRunnable(
+          exampleName,
+          description,
+          debug,
         );
-      },
-    );
+
+        exampleRow.forEach((parameterName, value) {
+          scenarioRunnable.setStepParameter(parameterName, value ?? '');
+          clonedSteps.forEach(
+            (step) => step.setStepParameter(parameterName, value ?? ''),
+          );
+        });
+
+        [
+          ...tags,
+          ...example.tags,
+        ].forEach((t) => scenarioRunnable.addTag(t.clone()));
+
+        clonedSteps.forEach((step) => scenarioRunnable.addChild(step));
+        scenarios.add(scenarioRunnable);
+      });
+    });
 
     return scenarios;
   }

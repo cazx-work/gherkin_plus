@@ -36,10 +36,7 @@ class JsonStep {
     this.status = JsonStatus.failed,
   });
 
-  static JsonStep get empty => JsonStep(
-        name: 'Unnamed',
-        line: 0,
-      );
+  static JsonStep get empty => JsonStep(name: 'Unnamed', line: 0);
 
   static JsonStep from(StepMessage message) {
     final index = message.name.indexOf(' ');
@@ -55,26 +52,13 @@ class JsonStep {
 
     if (message.table?.rows != null && message.table!.rows.isNotEmpty) {
       final tableRows = message.table!.rows
-          .map(
-            (r) => JsonRow(
-              r.columns.toList(
-                growable: false,
-              ),
-            ),
-          )
+          .map((r) => JsonRow(r.columns.toList(growable: false)))
           .toList();
 
       final header = JsonRow(
-        message.table!.header!.columns.toList(
-          growable: false,
-        ),
+        message.table!.header!.columns.toList(growable: false),
       );
-      step = step.copyWith(
-        rows: [
-          header,
-          ...tableRows,
-        ],
-      );
+      step = step.copyWith(rows: [header, ...tableRows]);
     }
 
     return step;
@@ -119,20 +103,11 @@ class JsonStep {
     }
   }
 
-  void onException(
-    Object exception,
-    StackTrace stackTrace,
-  ) {
-    _trackError(
-      exception.toString(),
-      stackTrace.toString(),
-    );
+  void onException(Object exception, StackTrace stackTrace) {
+    _trackError(exception.toString(), stackTrace.toString());
   }
 
-  void _trackError(
-    String? error, [
-    String? stacktrace,
-  ]) {
+  void _trackError(String? error, [String? stacktrace]) {
     if (error != null && error.isNotEmpty) {
       this.error = error;
 
@@ -147,13 +122,8 @@ class JsonStep {
       'keyword': keyword,
       'name': name,
       'line': line,
-      'match': {
-        'location': '$file:$line',
-      },
-      'result': {
-        'status': status,
-        'duration': duration,
-      }
+      'match': {'location': '$file:$line'},
+      'result': {'status': status, 'duration': duration},
     };
 
     if (docString != null && docString!.isNotEmpty) {

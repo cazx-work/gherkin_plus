@@ -1,10 +1,4 @@
-enum StepExecutionResult {
-  passed,
-  fail,
-  skipped,
-  timeout,
-  error,
-}
+enum StepExecutionResult { passed, fail, skipped, timeout, error }
 
 class StepResult {
   /// The duration in milliseconds the step took to run
@@ -17,11 +11,7 @@ class StepResult {
   // This would be a failure message if the result failed.
   final String? resultReason;
 
-  StepResult(
-    this.elapsedMilliseconds,
-    this.result, {
-    this.resultReason,
-  });
+  StepResult(this.elapsedMilliseconds, this.result, {this.resultReason});
 }
 
 class ErroredStepResult extends StepResult {

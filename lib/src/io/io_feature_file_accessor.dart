@@ -10,10 +10,7 @@ class IoFeatureFileAccessor implements FeatureFileMatcher, FeatureFileReader {
   final Encoding encoding;
   final Directory? workingDirectory;
 
-  const IoFeatureFileAccessor({
-    this.encoding = utf8,
-    this.workingDirectory,
-  });
+  const IoFeatureFileAccessor({this.encoding = utf8, this.workingDirectory});
 
   @override
   Future<String> read(String path) {
@@ -22,10 +19,7 @@ class IoFeatureFileAccessor implements FeatureFileMatcher, FeatureFileReader {
 
   @override
   Future<List<String>> listFiles(Pattern pattern) {
-    return _directoryContents(
-      workingDirectory ?? Directory.current,
-      pattern,
-    );
+    return _directoryContents(workingDirectory ?? Directory.current, pattern);
   }
 
   /// Returns a list of relative paths from [dir] which match [pattern].
@@ -35,21 +29,16 @@ class IoFeatureFileAccessor implements FeatureFileMatcher, FeatureFileReader {
   ) async {
     final result = <String>[];
 
-    await directory.list(recursive: true).forEach(
-      (item) {
-        if (item is File) {
-          final relativePath = relative(
-            item.path,
-            from: directory.path,
-          );
+    await directory.list(recursive: true).forEach((item) {
+      if (item is File) {
+        final relativePath = relative(item.path, from: directory.path);
 
-          final match = pattern.allMatches(relativePath);
-          if (match.isNotEmpty) {
-            result.add(item.path);
-          }
+        final match = pattern.allMatches(relativePath);
+        if (match.isNotEmpty) {
+          result.add(item.path);
         }
-      },
-    );
+      }
+    });
 
     return result;
   }

@@ -22,16 +22,14 @@ abstract class Hook {
     World world,
     String scenario,
     Iterable<Tag> tags,
-  ) =>
-      Future.value(null);
+  ) => Future.value(null);
 
   /// Run before a scenario and it steps are executed
   Future<void> onBeforeScenario(
     TestConfiguration config,
     String scenario,
     Iterable<Tag> tags,
-  ) =>
-      Future.value(null);
+  ) => Future.value(null);
 
   /// Run after a scenario has executed
   Future<void> onAfterScenario(
@@ -39,8 +37,7 @@ abstract class Hook {
     String scenario,
     Iterable<Tag> tags, {
     bool passed = true,
-  }) =>
-      Future.value(null);
+  }) => Future.value(null);
 
   /// Run before a step is executed
   Future<void> onBeforeStep(World world, String step) => Future.value(null);

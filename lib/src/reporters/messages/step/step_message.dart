@@ -26,9 +26,7 @@ class StepMessage extends ActionMessage {
     this.multilineString,
     this.result,
     this.attachments,
-  }) : super(
-          target: Target.step,
-        );
+  }) : super(target: Target.step);
 
   StepMessage copyWith({
     String? name,

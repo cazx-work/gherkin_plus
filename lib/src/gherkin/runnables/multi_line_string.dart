@@ -13,10 +13,7 @@ class MultilineStringRunnable extends RunnableBlock {
   @override
   String get name => 'Multiline String';
 
-  MultilineStringRunnable(
-    super.debug, {
-    this.leadingWhitespace,
-  });
+  MultilineStringRunnable(super.debug, {this.leadingWhitespace});
 
   @override
   void addChild(Runnable child) {

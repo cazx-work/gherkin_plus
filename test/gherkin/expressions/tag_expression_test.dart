@@ -41,10 +41,12 @@ void main() {
         true,
       );
       expect(
-        evaluator.evaluate(
-          '@a and ((@b and not @e) and (@b and @c))',
-          ['a', 'b', 'c', 'e'],
-        ),
+        evaluator.evaluate('@a and ((@b and not @e) and (@b and @c))', [
+          'a',
+          'b',
+          'c',
+          'e',
+        ]),
         false,
       );
       expect(

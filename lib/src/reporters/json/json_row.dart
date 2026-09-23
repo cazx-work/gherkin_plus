@@ -4,8 +4,6 @@ class JsonRow {
   JsonRow(this.cells);
 
   Map<String, dynamic> toJson() {
-    return {
-      'cells': cells,
-    };
+    return {'cells': cells};
   }
 }

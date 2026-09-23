@@ -8,10 +8,7 @@ class AggregatedHook extends Hook {
   Iterable<Hook>? _orderedHooks;
 
   void addHooks(Iterable<Hook> hooks) {
-    _orderedHooks = hooks.toList()
-      ..sort(
-        (a, b) => b.priority - a.priority,
-      );
+    _orderedHooks = hooks.toList()..sort((a, b) => b.priority - a.priority);
   }
 
   @override
@@ -29,13 +26,7 @@ class AggregatedHook extends Hook {
     String scenario,
     Iterable<Tag> tags,
   ) =>
-      _invokeHooks(
-        (h) => h.onAfterScenarioWorldCreated(
-          world,
-          scenario,
-          tags,
-        ),
-      );
+      _invokeHooks((h) => h.onAfterScenarioWorldCreated(world, scenario, tags));
 
   /// Run before a scenario and it steps are executed
   @override
@@ -43,14 +34,7 @@ class AggregatedHook extends Hook {
     TestConfiguration config,
     String scenario,
     Iterable<Tag> tags,
-  ) =>
-      _invokeHooks(
-        (h) => h.onBeforeScenario(
-          config,
-          scenario,
-          tags,
-        ),
-      );
+  ) => _invokeHooks((h) => h.onBeforeScenario(config, scenario, tags));
 
   /// Run after a scenario has executed
   @override
@@ -59,36 +43,21 @@ class AggregatedHook extends Hook {
     String scenario,
     Iterable<Tag> tags, {
     bool passed = true,
-  }) async =>
-      _invokeHooks(
-        (h) => h.onAfterScenario(
-          config,
-          scenario,
-          tags,
-          passed: passed,
-        ),
-      );
+  }) async => _invokeHooks(
+    (h) => h.onAfterScenario(config, scenario, tags, passed: passed),
+  );
 
   /// Run before a step is executed
   @override
-  Future<void> onBeforeStep(
-    World world,
-    String step,
-  ) =>
+  Future<void> onBeforeStep(World world, String step) =>
       _invokeHooks((h) => h.onBeforeStep(world, step));
 
   /// Run after a step has executed
   @override
-  Future<void> onAfterStep(
-    World world,
-    String step,
-    StepResult result,
-  ) =>
+  Future<void> onAfterStep(World world, String step, StepResult result) =>
       _invokeHooks((h) => h.onAfterStep(world, step, result));
 
-  Future<void> _invokeHooks(
-    Future<void> Function(Hook h) invoke,
-  ) async {
+  Future<void> _invokeHooks(Future<void> Function(Hook h) invoke) async {
     if (_orderedHooks != null && _orderedHooks!.isNotEmpty) {
       for (final hook in _orderedHooks!) {
         await invoke(hook);

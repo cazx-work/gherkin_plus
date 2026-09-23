@@ -8,5 +8,5 @@ class CommentLineRunnable extends Runnable {
   String get name => 'Comment Line';
 
   CommentLineRunnable(this.comment, RunnableDebugInformation debug)
-      : super(debug);
+    : super(debug);
 }

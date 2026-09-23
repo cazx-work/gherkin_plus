@@ -14,11 +14,8 @@ class ScenarioRunnable extends TaggableRunnableBlock {
 
   ScenarioType get scenarioType => ScenarioType.scenario;
 
-  ScenarioRunnable(
-    this._name,
-    this.description,
-    RunnableDebugInformation debug,
-  ) : super(debug);
+  ScenarioRunnable(this._name, this.description, RunnableDebugInformation debug)
+    : super(debug);
 
   @override
   String get name => _name;

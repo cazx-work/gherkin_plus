@@ -30,33 +30,33 @@ class ReporterMock extends FullReporter {
 
   @override
   ReportActionHandler<FeatureMessage> get feature => ReportActionHandler(
-        onStarted: ([_]) async => onFeatureStartedInvocationCount += 1,
-        onFinished: ([_]) async => onFeatureFinishedInvocationCount += 1,
-      );
+    onStarted: ([_]) async => onFeatureStartedInvocationCount += 1,
+    onFinished: ([_]) async => onFeatureFinishedInvocationCount += 1,
+  );
 
   @override
   ReportActionHandler<ScenarioMessage> get scenario => ReportActionHandler(
-        onStarted: ([message]) async => onScenarioStartedInvocationCount += 1,
-        onFinished: ([message]) async => onScenarioFinishedInvocationCount += 1,
-      );
+    onStarted: ([message]) async => onScenarioStartedInvocationCount += 1,
+    onFinished: ([message]) async => onScenarioFinishedInvocationCount += 1,
+  );
 
   @override
   ReportActionHandler<StepMessage> get step => ReportActionHandler(
-        onStarted: ([message]) async => onStepStartedInvocationCount += 1,
-        onFinished: ([message]) async {
-          if (message != null && onStepFinishedFn != null) {
-            onStepFinishedFn!(message);
-          }
+    onStarted: ([message]) async => onStepStartedInvocationCount += 1,
+    onFinished: ([message]) async {
+      if (message != null && onStepFinishedFn != null) {
+        onStepFinishedFn!(message);
+      }
 
-          onStepFinishedInvocationCount += 1;
-        },
-      );
+      onStepFinishedInvocationCount += 1;
+    },
+  );
 
   @override
   ReportActionHandler<TestMessage> get test => ReportActionHandler(
-        onStarted: ([massage]) async => onTestRunStartedInvocationCount += 1,
-        onFinished: ([massage]) async => onTestRunFinishedInvocationCount += 1,
-      );
+    onStarted: ([massage]) async => onTestRunStartedInvocationCount += 1,
+    onFinished: ([massage]) async => onTestRunFinishedInvocationCount += 1,
+  );
 }
 
 class SerializableReporterMock extends Reporter

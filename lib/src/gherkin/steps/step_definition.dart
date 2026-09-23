@@ -34,19 +34,14 @@ abstract class StepDefinitionGeneric<TWorld extends World> {
     late int elapsedMilliseconds;
     try {
       final timeout = _timeout ?? defaultTimeout;
-      await Perf.measure(
-        () async {
-          _world = world;
-          _reporter = reporter;
-          _timeout = timeout;
-          final result = await onRun(parameters).timeout(
-            timeout,
-          );
+      await Perf.measure(() async {
+        _world = world;
+        _reporter = reporter;
+        _timeout = timeout;
+        final result = await onRun(parameters).timeout(timeout);
 
-          return result;
-        },
-        (ms) => elapsedMilliseconds = ms,
-      );
+        return result;
+      }, (ms) => elapsedMilliseconds = ms);
     } on GherkinTestFailure catch (tf) {
       return StepResult(
         elapsedMilliseconds,

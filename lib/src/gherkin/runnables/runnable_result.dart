@@ -5,9 +5,5 @@ class RunnableResult {
   final dynamic result;
   final Exception? error;
 
-  RunnableResult(
-    this.state, {
-    this.result,
-    this.error,
-  });
+  RunnableResult(this.state, {this.result, this.error});
 }

@@ -62,10 +62,7 @@ void main() {
       await aggregatedHook.onAfterStep(
         World(),
         '',
-        StepResult(
-          0,
-          StepExecutionResult.skipped,
-        ),
+        StepResult(0, StepExecutionResult.skipped),
       );
       expect(hookOne.onAfterStepInvocationCount, 1);
       expect(hookTwo.onAfterStepInvocationCount, 1);

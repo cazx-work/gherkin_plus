@@ -4,8 +4,9 @@ import 'tags.dart';
 abstract class TaggableRunnableBlock extends RunnableBlock {
   final List<TagsRunnable> _tags = <TagsRunnable>[];
 
-  Iterable<TagsRunnable> get tags => _tags.toList()
-    ..sort((a, b) => a.debug.lineNumber.compareTo(b.debug.lineNumber));
+  Iterable<TagsRunnable> get tags =>
+      _tags.toList()
+        ..sort((a, b) => a.debug.lineNumber.compareTo(b.debug.lineNumber));
 
   TaggableRunnableBlock(super.debug);
 

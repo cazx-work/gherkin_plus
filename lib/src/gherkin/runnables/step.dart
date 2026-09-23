@@ -13,11 +13,8 @@ class StepRunnable extends RunnableBlock {
   GherkinTable? table;
   List<String> multilineStrings = <String>[];
 
-  StepRunnable(
-    this._name,
-    RunnableDebugInformation debug, {
-    this.keyword = '',
-  }) : super(debug);
+  StepRunnable(this._name, RunnableDebugInformation debug, {this.keyword = ''})
+    : super(debug);
 
   @override
   String get name => _name;
@@ -28,8 +25,9 @@ class StepRunnable extends RunnableBlock {
   void addChild(Runnable child) {
     switch (child.runtimeType) {
       case MultilineStringRunnable:
-        multilineStrings
-            .add((child as MultilineStringRunnable).lines.join('\n'));
+        multilineStrings.add(
+          (child as MultilineStringRunnable).lines.join('\n'),
+        );
       case TableRunnable:
         if (table != null) {
           throw GherkinSyntaxException(

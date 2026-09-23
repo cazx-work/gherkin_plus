@@ -1,4 +1,3 @@
-
 import 'package:gherkin_plus/gherkin_plus.dart';
 
 class HookExample extends Hook {

@@ -26,17 +26,9 @@ String formatFailure(
 ///
 /// If [first] is passed, it's used in place of the first line's indentation and
 /// [size] defaults to `first.length`. Otherwise, [size] defaults to 2.
-String indent(
-  String string, {
-  int? size,
-  String? first,
-}) {
+String indent(String string, {int? size, String? first}) {
   size ??= first == null ? 2 : first.length;
-  return prefixLines(
-    string,
-    ' ' * size,
-    first: first,
-  );
+  return prefixLines(string, ' ' * size, first: first);
 }
 
 /// Prepends each line in [text] with [prefix].

@@ -20,8 +20,8 @@ class JsonFeature {
     this.id,
     List<JsonScenario>? scenarios,
     Iterable<JsonTag>? tags,
-  })  : scenarios = scenarios ?? [],
-        tags = tags ?? [];
+  }) : scenarios = scenarios ?? [],
+       tags = tags ?? [];
 
   /// Convert [StartedMessage] to [JsonFeature]
   factory JsonFeature.from(FeatureMessage message) {
@@ -40,13 +40,14 @@ class JsonFeature {
   /// Create [JsonFeature] with empty fields and
   /// has one [JsonScenario.empty] in [scenarios]
   static JsonFeature get empty => JsonFeature(
-        name: 'Unnamed feature',
-        description: 'An unnamed feature is possible '
-            'if something is logged before any feature has started to execute',
-        scenarios: [JsonScenario.empty],
-        line: 0,
-        uri: 'unknown',
-      );
+    name: 'Unnamed feature',
+    description:
+        'An unnamed feature is possible '
+        'if something is logged before any feature has started to execute',
+    scenarios: [JsonScenario.empty],
+    line: 0,
+    uri: 'unknown',
+  );
 
   /// Add scenario in [scenarios] and
   /// sets the reference [scenario.feature] on this.

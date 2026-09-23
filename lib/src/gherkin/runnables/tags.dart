@@ -9,9 +9,7 @@ class TagsRunnable extends Runnable {
 
   TagsRunnable(super.debug);
 
-  TagsRunnable clone({
-    bool inherited = false,
-  }) {
+  TagsRunnable clone({bool inherited = false}) {
     return TagsRunnable(debug)
       ..tags = tags.map((t) => t).toList()
       ..isInherited = inherited;

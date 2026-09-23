@@ -12,42 +12,40 @@ class TestRunSummaryReporter extends StdoutReporter
 
   @override
   ReportActionHandler<TestMessage> get test => ReportActionHandler(
-        onStarted: ([message]) async => _timer.start(),
-        onFinished: ([message]) async {
-          _timer.stop();
-          printMessageLine(
-            "${_ranScenarios.length} scenario${_ranScenarios.length > 1 ? "s" : ""} "
-            "(${_collectScenarioSummary(_ranScenarios)})",
-          );
-          printMessageLine(
-            "${_ranSteps.length} step${_ranSteps.length > 1 ? "s" : ""} "
-            "(${_collectStepSummary(_ranSteps)})",
-          );
-          printMessageLine(
-            '${Duration(milliseconds: _timer.elapsedMilliseconds)}',
-          );
-        },
+    onStarted: ([message]) async => _timer.start(),
+    onFinished: ([message]) async {
+      _timer.stop();
+      printMessageLine(
+        "${_ranScenarios.length} scenario${_ranScenarios.length > 1 ? "s" : ""} "
+        "(${_collectScenarioSummary(_ranScenarios)})",
       );
+      printMessageLine(
+        "${_ranSteps.length} step${_ranSteps.length > 1 ? "s" : ""} "
+        "(${_collectStepSummary(_ranSteps)})",
+      );
+      printMessageLine('${Duration(milliseconds: _timer.elapsedMilliseconds)}');
+    },
+  );
 
   @override
   ReportActionHandler<ScenarioMessage> get scenario => ReportActionHandler(
-        onFinished: ([message]) async {
-          if (message == null) {
-            return;
-          }
-          _ranScenarios.add(message);
-        },
-      );
+    onFinished: ([message]) async {
+      if (message == null) {
+        return;
+      }
+      _ranScenarios.add(message);
+    },
+  );
 
   @override
   ReportActionHandler<StepMessage> get step => ReportActionHandler(
-        onFinished: ([message]) async {
-          if (message == null) {
-            return;
-          }
-          _ranSteps.add(message);
-        },
-      );
+    onFinished: ([message]) async {
+      if (message == null) {
+        return;
+      }
+      _ranSteps.add(message);
+    },
+  );
 
   @override
   Future<void> message(String message, MessageLevel level) async {
@@ -84,10 +82,12 @@ class TestRunSummaryReporter extends StdoutReporter
 
   String _collectStepSummary(Iterable<StepMessage> steps) {
     final summaries = <String>[];
-    final passed =
-        steps.where((s) => s.result!.result == StepExecutionResult.passed);
-    final skipped =
-        steps.where((s) => s.result!.result == StepExecutionResult.skipped);
+    final passed = steps.where(
+      (s) => s.result!.result == StepExecutionResult.passed,
+    );
+    final skipped = steps.where(
+      (s) => s.result!.result == StepExecutionResult.skipped,
+    );
     final failed = steps.where(
       (s) =>
           s.result!.result == StepExecutionResult.error ||

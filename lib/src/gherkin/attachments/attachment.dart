@@ -3,9 +3,5 @@ class Attachment {
   final String mimeType;
   final String? context;
 
-  Attachment(
-    this.data,
-    this.mimeType, [
-    this.context,
-  ]);
+  Attachment(this.data, this.mimeType, [this.context]);
 }

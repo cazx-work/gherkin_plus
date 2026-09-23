@@ -25,14 +25,13 @@ class GherkinExpression {
         // transform the parameter into the correct type later on
         // so get that then modify the new matching pattern.
         originalExpression.pattern.replaceAllMapped(
-            RegExp(
-              _escapeIdentifier(p.identifier),
-              multiLine: true,
-            ), (m) {
-          _sortedParameterPositions.add(_SortedParameterPosition(m.start, p));
+          RegExp(_escapeIdentifier(p.identifier), multiLine: true),
+          (m) {
+            _sortedParameterPositions.add(_SortedParameterPosition(m.start, p));
 
-          return m.input;
-        });
+            return m.input;
+          },
+        );
         pattern = pattern.replaceAllMapped(
           RegExp(_escapeIdentifier(p.identifier), multiLine: true),
           (m) => p.pattern.pattern,
@@ -53,7 +52,8 @@ class GherkinExpression {
         // look ahead and make sure we don't see "s)" or "?:" which would
         // indicate the plural parameter or a non-capturing group
         if (originalExpression.pattern.length > i + 2) {
-          final justAhead = originalExpression.pattern[i + 1] +
+          final justAhead =
+              originalExpression.pattern[i + 1] +
               originalExpression.pattern[i + 2];
           if (justAhead != 's)' && justAhead != '?:') {
             inCustomBracketSection = true;
@@ -90,20 +90,16 @@ class GherkinExpression {
   Iterable<dynamic> getParameters(String input) {
     final stringValues = <String>[];
     final values = <dynamic>[];
-    _expression.allMatches(input).forEach(
-      (m) {
-        // the first group is always the input string
-        final indices = List.generate(
-          m.groupCount,
-          (i) => i + 1,
-          growable: false,
-        ).toList();
+    _expression.allMatches(input).forEach((m) {
+      // the first group is always the input string
+      final indices = List.generate(
+        m.groupCount,
+        (i) => i + 1,
+        growable: false,
+      ).toList();
 
-        stringValues.addAll(
-          m.groups(indices).where((x) => x != null).cast(),
-        );
-      },
-    );
+      stringValues.addAll(m.groups(indices).where((x) => x != null).cast());
+    });
 
     final definedParameters = _sortedParameterPositions
         .where((x) => x.parameter.includeInParameterList)

@@ -9,10 +9,11 @@ import 'package:gherkin_plus/gherkin_plus.dart';
 ///  Some comment
 ///  """
 StepDefinitionGeneric givenTheMultiLineComment() {
-  return given2(
-    'I provide the following {string} comment',
-    (commentType, comment, _) async {
-      // implement step
-    },
-  );
+  return given2('I provide the following {string} comment', (
+    commentType,
+    comment,
+    _,
+  ) async {
+    // implement step
+  });
 }

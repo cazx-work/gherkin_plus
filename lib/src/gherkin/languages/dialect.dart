@@ -31,13 +31,7 @@ class GherkinDialect {
     this.languageCode,
   });
 
-  Set<String> get stepKeywords => {
-        ...given,
-        ...when,
-        ...then,
-        ...and,
-        ...but,
-      };
+  Set<String> get stepKeywords => {...given, ...when, ...then, ...and, ...but};
 
   factory GherkinDialect.fromJson(Map<String, dynamic> map) {
     final given = map['given'] as List<String>;

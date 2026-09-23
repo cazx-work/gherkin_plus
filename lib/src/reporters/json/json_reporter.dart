@@ -18,10 +18,8 @@ class JsonReporter
   final String path;
   final WriteReportCallback? writeReport;
 
-  JsonReporter({
-    this.path = './report.json',
-    this.writeReport,
-  }) : _features = [];
+  JsonReporter({this.path = './report.json', this.writeReport})
+    : _features = [];
 
   JsonFeature get _currentFeature {
     if (_features.isEmpty) {
@@ -37,28 +35,29 @@ class JsonReporter
 
   @override
   ReportActionHandler<FeatureMessage> get feature => ReportActionHandler(
-        onStarted: ([message]) async =>
-            _features.add(JsonFeature.from(message!)),
-      );
+    onStarted: ([message]) async => _features.add(JsonFeature.from(message!)),
+  );
 
   @override
   ReportActionHandler<ScenarioMessage> get scenario => ReportActionHandler(
-        onStarted: ([message]) async =>
-            _currentFeature.add(JsonScenario.from(message!)),
-      );
+    onStarted: ([message]) async =>
+        _currentFeature.add(JsonScenario.from(message!)),
+  );
 
   @override
   ReportActionHandler<StepMessage> get step => ReportActionHandler(
-        onStarted: ([message]) async =>
-            _currentFeature.currentScenario.add(JsonStep.from(message!)),
-        onFinished: ([message]) async =>
-            _currentFeature.currentScenario.onStepFinish(message!),
-      );
+    onStarted: ([message]) async =>
+        _currentFeature.currentScenario.add(JsonStep.from(message!)),
+    onFinished: ([message]) async =>
+        _currentFeature.currentScenario.onStepFinish(message!),
+  );
 
   @override
   Future<void> onException(Object exception, StackTrace stackTrace) async {
-    _currentFeature.currentScenario.currentStep
-        .onException(exception, stackTrace);
+    _currentFeature.currentScenario.currentStep.onException(
+      exception,
+      stackTrace,
+    );
   }
 
   Future<void> onSaveReport(String jsonReport, String path) async {

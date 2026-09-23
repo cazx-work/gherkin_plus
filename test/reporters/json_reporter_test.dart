@@ -75,13 +75,10 @@ void main() {
       );
 
       await reporter.test.onFinished.invoke();
-      final expectedJson =
-          File.fromUri(Uri.file('./test/reporters/json_reports/report_1.json'))
-              .readAsStringSync();
-      expect(
-        reporter.report,
-        minimizeJson(expectedJson),
-      );
+      final expectedJson = File.fromUri(
+        Uri.file('./test/reporters/json_reports/report_1.json'),
+      ).readAsStringSync();
+      expect(reporter.report, minimizeJson(expectedJson));
     });
 
     test('correct report with one passing step with doc string', () async {
@@ -139,8 +136,9 @@ void main() {
       expect(
         reporter.report,
         minimizeJson(
-          File.fromUri(Uri.file('./test/reporters/json_reports/report_5.json'))
-              .readAsStringSync(),
+          File.fromUri(
+            Uri.file('./test/reporters/json_reports/report_5.json'),
+          ).readAsStringSync(),
         ),
       );
     });
@@ -162,7 +160,7 @@ void main() {
           hasPassed: false,
           tags: [
             Tag('tag1', 1, isInherited: true),
-            Tag('tag2', 3, isInherited: false)
+            Tag('tag2', 3, isInherited: false),
           ],
         ),
       );
@@ -221,193 +219,200 @@ void main() {
       expect(
         reporter.report,
         minimizeJson(
-          File.fromUri(Uri.file('./test/reporters/json_reports/report_2.json'))
-              .readAsStringSync(),
+          File.fromUri(
+            Uri.file('./test/reporters/json_reports/report_2.json'),
+          ).readAsStringSync(),
         ),
       );
     });
 
-    test('correct report with one passing, one failing and one skipped step',
-        () async {
-      final reporter = TestableJsonReporter();
-      await reporter.feature.onStarted.invoke(
-        FeatureMessage(
-          name: 'Feature 1',
-          context: RunnableDebugInformation('filepath', 2, 'linetext2'),
-          tags: [Tag('tag1', 1, isInherited: false)],
-        ),
-      );
-
-      await reporter.scenario.onStarted.invoke(
-        ScenarioMessage(
-          name: 'Scenario 1',
-          context: RunnableDebugInformation('filepath', 4, 'linetext4'),
-          hasPassed: false,
-          tags: [
-            Tag('tag1', 1, isInherited: true),
-            Tag('tag2', 3, isInherited: false)
-          ],
-        ),
-      );
-
-      await reporter.step.onStarted.invoke(
-        StepMessage(
-          name: 'Step 1',
-          context: RunnableDebugInformation('filepath', 5, 'linetext5'),
-        ),
-      );
-
-      await reporter.step.onFinished.invoke(
-        StepMessage(
-          name: 'Step 1',
-          context: RunnableDebugInformation('filepath', 5, 'linetext5'),
-          result: StepResult(100, StepExecutionResult.passed),
-        ),
-      );
-
-      await reporter.step.onStarted.invoke(
-        StepMessage(
-          name: 'Step 2',
-          context: RunnableDebugInformation('filepath', 6, 'linetext6'),
-        ),
-      );
-
-      await reporter.step.onFinished.invoke(
-        StepMessage(
-          name: 'Step 2',
-          context: RunnableDebugInformation('filepath', 6, 'linetext6'),
-          result: StepResult(
-            100,
-            StepExecutionResult.fail,
-            resultReason: 'error message',
+    test(
+      'correct report with one passing, one failing and one skipped step',
+      () async {
+        final reporter = TestableJsonReporter();
+        await reporter.feature.onStarted.invoke(
+          FeatureMessage(
+            name: 'Feature 1',
+            context: RunnableDebugInformation('filepath', 2, 'linetext2'),
+            tags: [Tag('tag1', 1, isInherited: false)],
           ),
-        ),
-      );
+        );
 
-      await reporter.step.onStarted.invoke(
-        StepMessage(
-          name: 'Step 3',
-          context: RunnableDebugInformation('filepath', 7, 'linetext7'),
-        ),
-      );
-
-      await reporter.step.onFinished.invoke(
-        StepMessage(
-          name: 'Step 3',
-          context: RunnableDebugInformation('filepath', 7, 'linetext7'),
-          result: StepResult(100, StepExecutionResult.skipped),
-        ),
-      );
-
-      await reporter.scenario.onFinished.invoke(
-        ScenarioMessage(
-          name: 'Scenario 1',
-          context: RunnableDebugInformation('filepath', 4, 'linetext4'),
-          hasPassed: true,
-        ),
-      );
-
-      await reporter.feature.onFinished.invoke(
-        FeatureMessage(
-          name: 'Feature 1',
-          context: RunnableDebugInformation('filepath', 2, 'linetext2'),
-        ),
-      );
-
-      await reporter.test.onFinished.invoke();
-
-      expect(
-        reporter.report,
-        minimizeJson(
-          File.fromUri(Uri.file('./test/reporters/json_reports/report_3.json'))
-              .readAsStringSync(),
-        ),
-      );
-    });
-
-    test('correct report with one passing and one failing step with attachment',
-        () async {
-      final reporter = TestableJsonReporter();
-      await reporter.feature.onStarted.invoke(
-        FeatureMessage(
-          name: 'Feature 1',
-          context: RunnableDebugInformation('filepath', 2, 'linetext2'),
-          tags: [Tag('tag1', 1, isInherited: false)],
-        ),
-      );
-
-      await reporter.scenario.onStarted.invoke(
-        ScenarioMessage(
-          name: 'Scenario 1',
-          context: RunnableDebugInformation('filepath', 4, 'linetext4'),
-          hasPassed: false,
-          tags: [
-            Tag('tag1', 1, isInherited: true),
-            Tag('tag2', 3, isInherited: false)
-          ],
-        ),
-      );
-
-      await reporter.step.onStarted.invoke(
-        StepMessage(
-          name: 'Step 1',
-          context: RunnableDebugInformation('filepath', 5, 'linetext5'),
-        ),
-      );
-
-      await reporter.step.onFinished.invoke(
-        StepMessage(
-          name: 'Step 1',
-          context: RunnableDebugInformation('filepath', 5, 'linetext5'),
-          result: StepResult(100, StepExecutionResult.passed),
-        ),
-      );
-
-      await reporter.step.onStarted.invoke(
-        StepMessage(
-          name: 'Step 2',
-          context: RunnableDebugInformation('filepath', 6, 'linetext6'),
-        ),
-      );
-
-      await reporter.step.onFinished.invoke(
-        StepMessage(
-          name: 'Step 2',
-          context: RunnableDebugInformation('filepath', 6, 'linetext6'),
-          result: StepResult(
-            100,
-            StepExecutionResult.fail,
-            resultReason: 'error message',
+        await reporter.scenario.onStarted.invoke(
+          ScenarioMessage(
+            name: 'Scenario 1',
+            context: RunnableDebugInformation('filepath', 4, 'linetext4'),
+            hasPassed: false,
+            tags: [
+              Tag('tag1', 1, isInherited: true),
+              Tag('tag2', 3, isInherited: false),
+            ],
           ),
-          attachments: [Attachment('data', 'mimetype')],
-        ),
-      );
+        );
 
-      await reporter.scenario.onFinished.invoke(
-        ScenarioMessage(
-          name: 'Scenario 1',
-          context: RunnableDebugInformation('filepath', 4, 'linetext4'),
-          hasPassed: true,
-        ),
-      );
+        await reporter.step.onStarted.invoke(
+          StepMessage(
+            name: 'Step 1',
+            context: RunnableDebugInformation('filepath', 5, 'linetext5'),
+          ),
+        );
 
-      await reporter.feature.onFinished.invoke(
-        FeatureMessage(
-          name: 'Feature 1',
-          context: RunnableDebugInformation('filepath', 2, 'linetext2'),
-        ),
-      );
+        await reporter.step.onFinished.invoke(
+          StepMessage(
+            name: 'Step 1',
+            context: RunnableDebugInformation('filepath', 5, 'linetext5'),
+            result: StepResult(100, StepExecutionResult.passed),
+          ),
+        );
 
-      await reporter.test.onFinished.invoke();
+        await reporter.step.onStarted.invoke(
+          StepMessage(
+            name: 'Step 2',
+            context: RunnableDebugInformation('filepath', 6, 'linetext6'),
+          ),
+        );
 
-      expect(
-        reporter.report,
-        minimizeJson(
-          File.fromUri(Uri.file('./test/reporters/json_reports/report_4.json'))
-              .readAsStringSync(),
-        ),
-      );
-    });
+        await reporter.step.onFinished.invoke(
+          StepMessage(
+            name: 'Step 2',
+            context: RunnableDebugInformation('filepath', 6, 'linetext6'),
+            result: StepResult(
+              100,
+              StepExecutionResult.fail,
+              resultReason: 'error message',
+            ),
+          ),
+        );
+
+        await reporter.step.onStarted.invoke(
+          StepMessage(
+            name: 'Step 3',
+            context: RunnableDebugInformation('filepath', 7, 'linetext7'),
+          ),
+        );
+
+        await reporter.step.onFinished.invoke(
+          StepMessage(
+            name: 'Step 3',
+            context: RunnableDebugInformation('filepath', 7, 'linetext7'),
+            result: StepResult(100, StepExecutionResult.skipped),
+          ),
+        );
+
+        await reporter.scenario.onFinished.invoke(
+          ScenarioMessage(
+            name: 'Scenario 1',
+            context: RunnableDebugInformation('filepath', 4, 'linetext4'),
+            hasPassed: true,
+          ),
+        );
+
+        await reporter.feature.onFinished.invoke(
+          FeatureMessage(
+            name: 'Feature 1',
+            context: RunnableDebugInformation('filepath', 2, 'linetext2'),
+          ),
+        );
+
+        await reporter.test.onFinished.invoke();
+
+        expect(
+          reporter.report,
+          minimizeJson(
+            File.fromUri(
+              Uri.file('./test/reporters/json_reports/report_3.json'),
+            ).readAsStringSync(),
+          ),
+        );
+      },
+    );
+
+    test(
+      'correct report with one passing and one failing step with attachment',
+      () async {
+        final reporter = TestableJsonReporter();
+        await reporter.feature.onStarted.invoke(
+          FeatureMessage(
+            name: 'Feature 1',
+            context: RunnableDebugInformation('filepath', 2, 'linetext2'),
+            tags: [Tag('tag1', 1, isInherited: false)],
+          ),
+        );
+
+        await reporter.scenario.onStarted.invoke(
+          ScenarioMessage(
+            name: 'Scenario 1',
+            context: RunnableDebugInformation('filepath', 4, 'linetext4'),
+            hasPassed: false,
+            tags: [
+              Tag('tag1', 1, isInherited: true),
+              Tag('tag2', 3, isInherited: false),
+            ],
+          ),
+        );
+
+        await reporter.step.onStarted.invoke(
+          StepMessage(
+            name: 'Step 1',
+            context: RunnableDebugInformation('filepath', 5, 'linetext5'),
+          ),
+        );
+
+        await reporter.step.onFinished.invoke(
+          StepMessage(
+            name: 'Step 1',
+            context: RunnableDebugInformation('filepath', 5, 'linetext5'),
+            result: StepResult(100, StepExecutionResult.passed),
+          ),
+        );
+
+        await reporter.step.onStarted.invoke(
+          StepMessage(
+            name: 'Step 2',
+            context: RunnableDebugInformation('filepath', 6, 'linetext6'),
+          ),
+        );
+
+        await reporter.step.onFinished.invoke(
+          StepMessage(
+            name: 'Step 2',
+            context: RunnableDebugInformation('filepath', 6, 'linetext6'),
+            result: StepResult(
+              100,
+              StepExecutionResult.fail,
+              resultReason: 'error message',
+            ),
+            attachments: [Attachment('data', 'mimetype')],
+          ),
+        );
+
+        await reporter.scenario.onFinished.invoke(
+          ScenarioMessage(
+            name: 'Scenario 1',
+            context: RunnableDebugInformation('filepath', 4, 'linetext4'),
+            hasPassed: true,
+          ),
+        );
+
+        await reporter.feature.onFinished.invoke(
+          FeatureMessage(
+            name: 'Feature 1',
+            context: RunnableDebugInformation('filepath', 2, 'linetext2'),
+          ),
+        );
+
+        await reporter.test.onFinished.invoke();
+
+        expect(
+          reporter.report,
+          minimizeJson(
+            File.fromUri(
+              Uri.file('./test/reporters/json_reports/report_4.json'),
+            ).readAsStringSync(),
+          ),
+        );
+      },
+    );
 
     test('correct report with scenario outlines', () async {
       final reporter = TestableJsonReporter();
@@ -427,7 +432,7 @@ void main() {
           hasPassed: true,
           tags: [
             Tag('tag1', 1, isInherited: true),
-            Tag('tag2', 3, isInherited: false)
+            Tag('tag2', 3, isInherited: false),
           ],
         ),
       );
@@ -483,8 +488,9 @@ void main() {
       expect(
         reporter.report,
         minimizeJson(
-          File.fromUri(Uri.file('./test/reporters/json_reports/report_6.json'))
-              .readAsStringSync(),
+          File.fromUri(
+            Uri.file('./test/reporters/json_reports/report_6.json'),
+          ).readAsStringSync(),
         ),
       );
     });
@@ -497,8 +503,9 @@ void main() {
       expect(
         reporter.report,
         minimizeJson(
-          File.fromUri(Uri.file('./test/reporters/json_reports/report_7.json'))
-              .readAsStringSync(),
+          File.fromUri(
+            Uri.file('./test/reporters/json_reports/report_7.json'),
+          ).readAsStringSync(),
         ),
       );
     });
@@ -520,7 +527,7 @@ void main() {
           hasPassed: false,
           tags: [
             Tag('tag1', 1, isInherited: true),
-            Tag('tag2', 3, isInherited: false)
+            Tag('tag2', 3, isInherited: false),
           ],
         ),
       );
@@ -588,7 +595,7 @@ void main() {
           context: RunnableDebugInformation('filepath', 4, 'linetext4'),
           tags: [
             Tag('tag1', 1, isInherited: true),
-            Tag('tag2', 3, isInherited: false)
+            Tag('tag2', 3, isInherited: false),
           ],
         ),
       );
@@ -628,8 +635,9 @@ void main() {
       expect(
         reporter.report,
         minimizeJson(
-          File.fromUri(Uri.file('./test/reporters/json_reports/report_8.json'))
-              .readAsStringSync(),
+          File.fromUri(
+            Uri.file('./test/reporters/json_reports/report_8.json'),
+          ).readAsStringSync(),
         ),
       );
     });

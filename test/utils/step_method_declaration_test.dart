@@ -10,13 +10,10 @@ void main() {
       const parameter1Value = 1;
       late int parameter1GivenValue;
 
-      final stepMethod = when1(
-        'pattern',
-        (int input1, _) {
-          parameter1GivenValue = input1;
-          return Future.value(null);
-        },
-      );
+      final stepMethod = when1('pattern', (int input1, _) {
+        parameter1GivenValue = input1;
+        return Future.value(null);
+      });
 
       await stepMethod.run(
         World(),
@@ -32,14 +29,15 @@ void main() {
       final customWorld = WorldMock();
       late World receivedWorld;
 
-      final stepMethod = given2(
-        'pattern',
-        (int input1, String input2, StepContext ctx) {
-          receivedWorld = ctx.world;
+      final stepMethod = given2('pattern', (
+        int input1,
+        String input2,
+        StepContext ctx,
+      ) {
+        receivedWorld = ctx.world;
 
-          return Future.value(null);
-        },
-      );
+        return Future.value(null);
+      });
 
       await stepMethod.run(
         customWorld,

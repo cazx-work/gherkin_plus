@@ -61,7 +61,9 @@ Feature: Full fidelity
         .toList(growable: false);
 
     expect(
-      document.feature!.children.map((child) => child.rule).whereType<messages.Rule>(),
+      document.feature!.children
+          .map((child) => child.rule)
+          .whereType<messages.Rule>(),
       hasLength(1),
     );
     expect(pickles, hasLength(2));

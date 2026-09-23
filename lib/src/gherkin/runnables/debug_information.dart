@@ -6,9 +6,9 @@ class RunnableDebugInformation {
   RunnableDebugInformation(this.filePath, this.lineNumber, this.lineText);
 
   RunnableDebugInformation.empty()
-      : filePath = '',
-        lineNumber = 0,
-        lineText = '';
+    : filePath = '',
+      lineNumber = 0,
+      lineText = '';
 
   int get nonZeroAdjustedLineNumber => lineNumber + 1;
 

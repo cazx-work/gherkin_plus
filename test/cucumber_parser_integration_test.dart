@@ -176,28 +176,31 @@ Fonctionnalité: Langue par défaut
     expect(stepRuns, 1);
   });
 
-  test('preserves original step line numbers when injecting a language', () async {
-    final locationReporter = _StepLocationReporter();
-    final configuration = TestConfiguration(
-      features: ['french.feature'],
-      featureDefaultLanguage: 'fr',
-      featureFileMatcher: _FeatureMatcher(),
-      featureFileReader: const _FeatureReader('''
+  test(
+    'preserves original step line numbers when injecting a language',
+    () async {
+      final locationReporter = _StepLocationReporter();
+      final configuration = TestConfiguration(
+        features: ['french.feature'],
+        featureDefaultLanguage: 'fr',
+        featureFileMatcher: _FeatureMatcher(),
+        featureFileReader: const _FeatureReader('''
     Fonctionnalité: Langue par défaut
   Scénario: dialecte configuré
     Soit le message est bonjour
 '''),
-      createWorld: (_) async => _World(),
-      reporters: [locationReporter],
-      stepDefinitions: [
-        given<_World>('le message est bonjour', (_) async {}),
-      ],
-    );
+        createWorld: (_) async => _World(),
+        reporters: [locationReporter],
+        stepDefinitions: [
+          given<_World>('le message est bonjour', (_) async {}),
+        ],
+      );
 
-    await GherkinRunner().run(configuration);
+      await GherkinRunner().run(configuration);
 
-    expect(locationReporter.lineNumber, 2);
-  });
+      expect(locationReporter.lineNumber, 2);
+    },
+  );
 
   test('reports malformed Gherkin with a typed syntax exception', () async {
     final messageReporter = _MessageCaptureReporter();

@@ -42,11 +42,7 @@ class ExpectMimic {
   /// the test doesn't complete until the matcher has either matched or failed. If
   /// you want to wait for the matcher to complete before continuing the test, you
   /// can call [expectLater] instead and `await` the result.
-  void expect(
-    dynamic actualValue,
-    dynamic matcher, {
-    String? reason,
-  }) {
+  void expect(dynamic actualValue, dynamic matcher, {String? reason}) {
     final matchState = {};
     final wrappedMatcher = wrapMatcher(matcher);
     final result = wrappedMatcher.matches(actualValue, matchState);

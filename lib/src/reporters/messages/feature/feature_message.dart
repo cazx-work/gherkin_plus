@@ -14,9 +14,7 @@ class FeatureMessage extends ActionMessage {
     required super.context,
     this.tags = const [],
     this.description,
-  }) : super(
-          target: Target.feature,
-        );
+  }) : super(target: Target.feature);
 
   FeatureMessage copyWith({
     String? name,

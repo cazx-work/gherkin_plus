@@ -61,8 +61,7 @@ class HookMock extends Hook {
     World world,
     String scenario,
     Iterable<Tag> tags,
-  ) async =>
-      onAfterScenarioWorldCreatedInvocationCount += 1;
+  ) async => onAfterScenarioWorldCreatedInvocationCount += 1;
 
   @override
   Future<void> onAfterStep(World world, String step, StepResult result) async =>

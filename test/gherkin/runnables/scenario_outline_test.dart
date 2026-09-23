@@ -75,9 +75,7 @@ void main() {
       );
       expect(
         expandedScenario2.name,
-        equals(
-          'Scenario outline with parameters: text, false Examples: (2)',
-        ),
+        equals('Scenario outline with parameters: text, false Examples: (2)'),
       );
     });
   });

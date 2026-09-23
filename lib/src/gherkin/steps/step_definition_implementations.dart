@@ -6,49 +6,22 @@ import 'world.dart';
 
 abstract class StepDefinitionBase<TWorld extends World>
     extends StepDefinitionGeneric<TWorld> {
-  StepDefinitionBase(
-    super.config,
-    super.expectParameterCount,
-  );
+  StepDefinitionBase(super.config, super.expectParameterCount);
 
-  void expect(
-    dynamic actual,
-    dynamic matcher, {
-    String? reason,
-  }) =>
-      ExpectMimic().expect(
-        actual,
-        matcher,
-        reason: reason,
-      );
+  void expect(dynamic actual, dynamic matcher, {String? reason}) =>
+      ExpectMimic().expect(actual, matcher, reason: reason);
 
-  void expectA(
-    dynamic actual,
-    dynamic matcher, {
-    String? reason,
-  }) =>
-      expect(
-        actual,
-        matcher,
-        reason: reason,
-      );
+  void expectA(dynamic actual, dynamic matcher, {String? reason}) =>
+      expect(actual, matcher, reason: reason);
 
-  void expectMatch(
-    dynamic actual,
-    dynamic matcher, {
-    String? reason,
-  }) =>
-      expect(
-        actual,
-        matcher,
-        reason: reason,
-      );
+  void expectMatch(dynamic actual, dynamic matcher, {String? reason}) =>
+      expect(actual, matcher, reason: reason);
 }
 
 abstract class StepDefinition<TWorld extends World>
     extends StepDefinitionBase<TWorld> {
   StepDefinition([StepDefinitionConfiguration? configuration])
-      : super(configuration, 0);
+    : super(configuration, 0);
 
   @override
   Future<void> onRun(Iterable<dynamic> parameters) => executeStep();
@@ -59,7 +32,7 @@ abstract class StepDefinition<TWorld extends World>
 abstract class StepDefinition1<TWorld extends World, TInput1>
     extends StepDefinitionBase<TWorld> {
   StepDefinition1([StepDefinitionConfiguration? configuration])
-      : super(configuration, 1);
+    : super(configuration, 1);
 
   @override
   Future<void> onRun(Iterable<dynamic> parameters) =>
@@ -71,51 +44,50 @@ abstract class StepDefinition1<TWorld extends World, TInput1>
 abstract class StepDefinition2<TWorld extends World, TInput1, TInput2>
     extends StepDefinitionBase<TWorld> {
   StepDefinition2([StepDefinitionConfiguration? configuration])
-      : super(configuration, 2);
+    : super(configuration, 2);
 
   @override
   Future<void> onRun(Iterable<dynamic> parameters) => executeStep(
-        parameters.elementAt(0) as TInput1,
-        parameters.elementAt(1) as TInput2,
-      );
-
-  Future<void> executeStep(
-    TInput1 input1,
-    TInput2 input2,
+    parameters.elementAt(0) as TInput1,
+    parameters.elementAt(1) as TInput2,
   );
+
+  Future<void> executeStep(TInput1 input1, TInput2 input2);
 }
 
 abstract class StepDefinition3<TWorld extends World, TInput1, TInput2, TInput3>
     extends StepDefinitionBase<TWorld> {
   StepDefinition3([StepDefinitionConfiguration? configuration])
-      : super(configuration, 3);
+    : super(configuration, 3);
 
   @override
   Future<void> onRun(Iterable<dynamic> parameters) => executeStep(
-        parameters.elementAt(0) as TInput1,
-        parameters.elementAt(1) as TInput2,
-        parameters.elementAt(2) as TInput3,
-      );
-
-  Future<void> executeStep(
-    TInput1 input1,
-    TInput2 input2,
-    TInput3 input3,
+    parameters.elementAt(0) as TInput1,
+    parameters.elementAt(1) as TInput2,
+    parameters.elementAt(2) as TInput3,
   );
+
+  Future<void> executeStep(TInput1 input1, TInput2 input2, TInput3 input3);
 }
 
-abstract class StepDefinition4<TWorld extends World, TInput1, TInput2, TInput3,
-    TInput4> extends StepDefinitionBase<TWorld> {
+abstract class StepDefinition4<
+  TWorld extends World,
+  TInput1,
+  TInput2,
+  TInput3,
+  TInput4
+>
+    extends StepDefinitionBase<TWorld> {
   StepDefinition4([StepDefinitionConfiguration? configuration])
-      : super(configuration, 4);
+    : super(configuration, 4);
 
   @override
   Future<void> onRun(Iterable<dynamic> parameters) => executeStep(
-        parameters.elementAt(0) as TInput1,
-        parameters.elementAt(1) as TInput2,
-        parameters.elementAt(2) as TInput3,
-        parameters.elementAt(3) as TInput4,
-      );
+    parameters.elementAt(0) as TInput1,
+    parameters.elementAt(1) as TInput2,
+    parameters.elementAt(2) as TInput3,
+    parameters.elementAt(3) as TInput4,
+  );
 
   Future<void> executeStep(
     TInput1 input1,
@@ -125,19 +97,26 @@ abstract class StepDefinition4<TWorld extends World, TInput1, TInput2, TInput3,
   );
 }
 
-abstract class StepDefinition5<TWorld extends World, TInput1, TInput2, TInput3,
-    TInput4, TInput5> extends StepDefinitionBase<TWorld> {
+abstract class StepDefinition5<
+  TWorld extends World,
+  TInput1,
+  TInput2,
+  TInput3,
+  TInput4,
+  TInput5
+>
+    extends StepDefinitionBase<TWorld> {
   StepDefinition5([StepDefinitionConfiguration? configuration])
-      : super(configuration, 5);
+    : super(configuration, 5);
 
   @override
   Future<void> onRun(Iterable<dynamic> parameters) => executeStep(
-        parameters.elementAt(0) as TInput1,
-        parameters.elementAt(1) as TInput2,
-        parameters.elementAt(2) as TInput3,
-        parameters.elementAt(3) as TInput4,
-        parameters.elementAt(4) as TInput5,
-      );
+    parameters.elementAt(0) as TInput1,
+    parameters.elementAt(1) as TInput2,
+    parameters.elementAt(2) as TInput3,
+    parameters.elementAt(3) as TInput4,
+    parameters.elementAt(4) as TInput5,
+  );
 
   Future<void> executeStep(
     TInput1 input1,
@@ -155,47 +134,19 @@ class StepContext<TWorld extends World> {
   final Reporter reporter;
   final StepDefinitionConfiguration configuration;
 
-  StepContext(
-    this.world,
-    this.reporter,
-    this.configuration,
-  );
+  StepContext(this.world, this.reporter, this.configuration);
 
   /// Assert that [actual] matches [matcher], [reason] is optional.
-  void expect(
-    dynamic actual,
-    dynamic matcher, {
-    String? reason,
-  }) =>
-      ExpectMimic().expect(
-        actual,
-        matcher,
-        reason: reason,
-      );
+  void expect(dynamic actual, dynamic matcher, {String? reason}) =>
+      ExpectMimic().expect(actual, matcher, reason: reason);
 
   /// Assert that [actual] matches [matcher], [reason] is optional.
-  void expectA(
-    dynamic actual,
-    dynamic matcher, {
-    String? reason,
-  }) =>
-      expect(
-        actual,
-        matcher,
-        reason: reason,
-      );
+  void expectA(dynamic actual, dynamic matcher, {String? reason}) =>
+      expect(actual, matcher, reason: reason);
 
   /// Assert that [actual] matches [matcher], [reason] is optional.
-  void expectMatch(
-    dynamic actual,
-    dynamic matcher, {
-    String? reason,
-  }) =>
-      expect(
-        actual,
-        matcher,
-        reason: reason,
-      );
+  void expectMatch(dynamic actual, dynamic matcher, {String? reason}) =>
+      expect(actual, matcher, reason: reason);
 }
 
 class GenericFunctionStepDefinition<TWorld extends World>
@@ -209,10 +160,7 @@ class GenericFunctionStepDefinition<TWorld extends World>
     this._onInvoke,
     this._expectedParameterCount, {
     StepDefinitionConfiguration? configuration,
-  }) : super(
-          configuration,
-          _expectedParameterCount,
-        );
+  }) : super(configuration, _expectedParameterCount);
 
   @override
   Future<void> onRun(Iterable<dynamic> parameters) {
@@ -225,11 +173,7 @@ class GenericFunctionStepDefinition<TWorld extends World>
 
     final methodParams = [
       ...parameters.take(_expectedParameterCount),
-      StepContext<TWorld>(
-        world,
-        reporter,
-        setupConfig,
-      ),
+      StepContext<TWorld>(world, reporter, setupConfig),
     ];
     return Function.apply(_onInvoke, methodParams) as Future<void>;
   }
@@ -240,7 +184,7 @@ class GenericFunctionStepDefinition<TWorld extends World>
 }
 
 StepDefinitionGeneric<TWorld>
-    step<TWorld extends World, TInput1, TInput2, TInput3, TInput4, TInput5>(
+step<TWorld extends World, TInput1, TInput2, TInput3, TInput4, TInput5>(
   Pattern pattern,
   int expectedParameterCount,
   Function onInvoke, {

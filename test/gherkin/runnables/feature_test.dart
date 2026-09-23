@@ -23,15 +23,17 @@ void main() {
       runnable.addChild(TextLineRunnable(debugInfo)..text = 'text line two');
       expect(runnable.description, 'text\ntext line two');
     });
-    test('can add TagsRunnable which are given to taggable the taggable child',
-        () {
-      final runnable = FeatureRunnable('', debugInfo);
-      runnable.addChild(TagsRunnable(debugInfo)..tags = ['one', 'two']);
-      runnable.addChild(TagsRunnable(debugInfo)..tags = ['three']);
-      final scenario = ScenarioRunnable('', null, debugInfo);
-      runnable.addChild(scenario);
-      expect(tagsToList(scenario.tags), ['one', 'two', 'three']);
-    });
+    test(
+      'can add TagsRunnable which are given to taggable the taggable child',
+      () {
+        final runnable = FeatureRunnable('', debugInfo);
+        runnable.addChild(TagsRunnable(debugInfo)..tags = ['one', 'two']);
+        runnable.addChild(TagsRunnable(debugInfo)..tags = ['three']);
+        final scenario = ScenarioRunnable('', null, debugInfo);
+        runnable.addChild(scenario);
+        expect(tagsToList(scenario.tags), ['one', 'two', 'three']);
+      },
+    );
     test('can add EmptyLineRunnable', () {
       final runnable = FeatureRunnable('', debugInfo);
       runnable.addChild(EmptyLineRunnable(debugInfo));

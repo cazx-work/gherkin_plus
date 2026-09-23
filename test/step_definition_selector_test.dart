@@ -42,11 +42,15 @@ Feature: Selection
       expect(selection.unmatchedSteps, isEmpty);
       expect(selection.ambiguousSteps, isEmpty);
       expect(
-        selection.matches.where((match) => match.stepText == 'the app is ready'),
+        selection.matches.where(
+          (match) => match.stepText == 'the app is ready',
+        ),
         hasLength(3),
       );
       expect(
-        selection.matches.where((match) => match.stepText.startsWith('the value is')),
+        selection.matches.where(
+          (match) => match.stepText.startsWith('the value is'),
+        ),
         hasLength(2),
       );
       expect(selection.matches.first.uri, 'features/selection.feature');

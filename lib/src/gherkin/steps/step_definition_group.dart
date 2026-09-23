@@ -7,8 +7,7 @@ abstract interface class StepDefinitionGroup<TWorld extends World> {
 }
 
 /// Flattens groups in registration order for configuration or custom tooling.
-List<StepDefinitionGeneric<TWorld>> flattenStepDefinitionGroups<
-  TWorld extends World
->(Iterable<StepDefinitionGroup<TWorld>> groups) => [
-  for (final group in groups) ...group.definitions,
-];
+List<StepDefinitionGeneric<TWorld>>
+flattenStepDefinitionGroups<TWorld extends World>(
+  Iterable<StepDefinitionGroup<TWorld>> groups,
+) => [for (final group in groups) ...group.definitions];

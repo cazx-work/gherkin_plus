@@ -23,19 +23,13 @@ class TagExpressionEvaluator {
     '(': 0,
   };
 
-  bool evaluate(
-    String tagExpression,
-    List<String> tags,
-  ) {
+  bool evaluate(String tagExpression, List<String> tags) {
     final rpn = _convertInfixToPostfixExpression(tagExpression);
 
     return _evaluateRpn(rpn, tags);
   }
 
-  bool _evaluateRpn(
-    Queue<String> rpn,
-    List<String> tags,
-  ) {
+  bool _evaluateRpn(Queue<String> rpn, List<String> tags) {
     final stack = Queue<bool>();
     for (final token in rpn) {
       if (_isTag(token)) {
@@ -75,13 +69,7 @@ class TagExpressionEvaluator {
     final expressionParts = RegExp(
       r'(\()|(or)|(and)|(not)|(@{1}\w{1}[^\s&\)]*)|(\))',
       caseSensitive: false,
-    )
-        .allMatches(
-          infixExpression,
-        )
-        .map(
-          (m) => m.group(0)!,
-        );
+    ).allMatches(infixExpression).map((m) => m.group(0)!);
 
     for (final part in expressionParts) {
       if (_isTag(part)) {
@@ -89,8 +77,8 @@ class TagExpressionEvaluator {
       } else if (part == openingBracket) {
         operatorQueue.addLast(part);
       } else if (part == closingBracket) {
-        while (
-            operatorQueue.isNotEmpty && operatorQueue.last != openingBracket) {
+        while (operatorQueue.isNotEmpty &&
+            operatorQueue.last != openingBracket) {
           rpn.add(operatorQueue.removeLast());
         }
         operatorQueue.removeLast();

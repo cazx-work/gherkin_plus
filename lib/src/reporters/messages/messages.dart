@@ -8,13 +8,7 @@ part 'scenario/scenario_message.dart';
 part 'test/test_message.dart';
 part 'feature/feature_message.dart';
 
-enum Target {
-  run,
-  feature,
-  scenario,
-  scenarioOutline,
-  step,
-}
+enum Target { run, feature, scenario, scenarioOutline, step }
 
 class Tag {
   final String name;
@@ -23,11 +17,7 @@ class Tag {
 
   int get nonZeroAdjustedLineNumber => lineNumber + 1;
 
-  Tag(
-    this.name,
-    this.lineNumber, {
-    this.isInherited = false,
-  });
+  Tag(this.name, this.lineNumber, {this.isInherited = false});
 }
 
 /// {@template messages.actionmessage}

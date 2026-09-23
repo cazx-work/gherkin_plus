@@ -49,9 +49,7 @@ class TableRunnable extends RunnableBlock {
         .skip(1);
 
     return TableRow(
-      columns.take(columns.length - 1).toList(
-            growable: false,
-          ),
+      columns.take(columns.length - 1).toList(growable: false),
       rowIndex,
       isHeaderRow: isHeaderRow,
     );

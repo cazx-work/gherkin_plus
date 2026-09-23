@@ -41,8 +41,13 @@ abstract class When3<TInput1, TInput2, TInput3>
   When3([super.configuration]);
 }
 
-abstract class When4WithWorld<TInput1, TInput2, TInput3, TInput4,
-        TWorld extends World>
+abstract class When4WithWorld<
+  TInput1,
+  TInput2,
+  TInput3,
+  TInput4,
+  TWorld extends World
+>
     extends StepDefinition4<TWorld, TInput1, TInput2, TInput3, TInput4> {
   When4WithWorld([super.configuration]);
 }
@@ -52,10 +57,16 @@ abstract class When4<TInput1, TInput2, TInput3, TInput4>
   When4([super.configuration]);
 }
 
-abstract class When5WithWorld<TInput1, TInput2, TInput3, TInput4, TInput5,
-        TWorld extends World>
-    extends StepDefinition5<TWorld, TInput1, TInput2, TInput3, TInput4,
-        TInput5> {
+abstract class When5WithWorld<
+  TInput1,
+  TInput2,
+  TInput3,
+  TInput4,
+  TInput5,
+  TWorld extends World
+>
+    extends
+        StepDefinition5<TWorld, TInput1, TInput2, TInput3, TInput4, TInput5> {
   When5WithWorld([super.configuration]);
 }
 
@@ -68,21 +79,16 @@ StepDefinitionGeneric<TWorld> when<TWorld extends World>(
   Pattern pattern,
   Future<void> Function(StepContext<TWorld> context) onInvoke, {
   StepDefinitionConfiguration? configuration,
-}) =>
-    step<TWorld, dynamic, dynamic, dynamic, dynamic, dynamic>(
-      pattern,
-      0,
-      onInvoke,
-      configuration: configuration,
-    );
+}) => step<TWorld, dynamic, dynamic, dynamic, dynamic, dynamic>(
+  pattern,
+  0,
+  onInvoke,
+  configuration: configuration,
+);
 
 StepDefinitionGeneric<TWorld> when1<TInput1, TWorld extends World>(
   Pattern pattern,
-  Future<void> Function(
-    TInput1 input1,
-    StepContext<TWorld> context,
-  )
-      onInvoke, {
+  Future<void> Function(TInput1 input1, StepContext<TWorld> context) onInvoke, {
   StepDefinitionConfiguration? configuration,
 }) {
   return step<TWorld, TInput1, dynamic, dynamic, dynamic, dynamic>(
@@ -100,18 +106,17 @@ StepDefinitionGeneric<TWorld> when2<TInput1, TInput2, TWorld extends World>(
     TInput2 input2,
     StepContext<TWorld> context,
   )
-      onInvoke, {
+  onInvoke, {
   StepDefinitionConfiguration? configuration,
-}) =>
-    step<TWorld, TInput1, TInput2, dynamic, dynamic, dynamic>(
-      pattern,
-      2,
-      onInvoke,
-      configuration: configuration,
-    );
+}) => step<TWorld, TInput1, TInput2, dynamic, dynamic, dynamic>(
+  pattern,
+  2,
+  onInvoke,
+  configuration: configuration,
+);
 
 StepDefinitionGeneric<TWorld>
-    when3<TInput1, TInput2, TInput3, TWorld extends World>(
+when3<TInput1, TInput2, TInput3, TWorld extends World>(
   Pattern pattern,
   Future<void> Function(
     TInput1 input1,
@@ -119,18 +124,17 @@ StepDefinitionGeneric<TWorld>
     TInput3 input3,
     StepContext<TWorld> context,
   )
-      onInvoke, {
+  onInvoke, {
   StepDefinitionConfiguration? configuration,
-}) =>
-        step<TWorld, TInput1, TInput2, TInput3, dynamic, dynamic>(
-          pattern,
-          3,
-          onInvoke,
-          configuration: configuration,
-        );
+}) => step<TWorld, TInput1, TInput2, TInput3, dynamic, dynamic>(
+  pattern,
+  3,
+  onInvoke,
+  configuration: configuration,
+);
 
 StepDefinitionGeneric<TWorld>
-    when4<TInput1, TInput2, TInput3, TInput4, TWorld extends World>(
+when4<TInput1, TInput2, TInput3, TInput4, TWorld extends World>(
   Pattern pattern,
   Future<void> Function(
     TInput1 input1,
@@ -139,18 +143,17 @@ StepDefinitionGeneric<TWorld>
     TInput4 input4,
     StepContext<TWorld> context,
   )
-      onInvoke, {
+  onInvoke, {
   StepDefinitionConfiguration? configuration,
-}) =>
-        step<TWorld, TInput1, TInput2, TInput3, TInput4, dynamic>(
-          pattern,
-          4,
-          onInvoke,
-          configuration: configuration,
-        );
+}) => step<TWorld, TInput1, TInput2, TInput3, TInput4, dynamic>(
+  pattern,
+  4,
+  onInvoke,
+  configuration: configuration,
+);
 
 StepDefinitionGeneric<TWorld>
-    when5<TInput1, TInput2, TInput3, TInput4, TInput5, TWorld extends World>(
+when5<TInput1, TInput2, TInput3, TInput4, TInput5, TWorld extends World>(
   Pattern pattern,
   Future<void> Function(
     TInput1 input1,
@@ -160,12 +163,11 @@ StepDefinitionGeneric<TWorld>
     TInput5 input5,
     StepContext<TWorld> context,
   )
-      onInvoke, {
+  onInvoke, {
   StepDefinitionConfiguration? configuration,
-}) =>
-        step<TWorld, TInput1, TInput2, TInput3, TInput4, TInput5>(
-          pattern,
-          5,
-          onInvoke,
-          configuration: configuration,
-        );
+}) => step<TWorld, TInput1, TInput2, TInput3, TInput4, TInput5>(
+  pattern,
+  5,
+  onInvoke,
+  configuration: configuration,
+);

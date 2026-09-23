@@ -2,10 +2,7 @@ import 'package:gherkin_plus/gherkin_plus.dart';
 import '../worlds/custom_world.world.dart';
 
 StepDefinitionGeneric whenTheCharactersAreCounted() {
-  return given<CalculatorWorld>(
-    'they are counted',
-    (context) async {
-      context.world.calculator.countStringCharacters();
-    },
-  );
+  return given<CalculatorWorld>('they are counted', (context) async {
+    context.world.calculator.countStringCharacters();
+  });
 }
