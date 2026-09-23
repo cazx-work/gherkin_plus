@@ -19,6 +19,12 @@ Feature: Runner reuse
 ''';
 }
 
+class _FailingFeatureReader implements FeatureFileReader {
+  @override
+  Future<String> read(String path) async =>
+      throw StateError('feature source unavailable');
+}
+
 void main() {
   test('re-registers step definitions for each run', () async {
     var firstDefinitionRuns = 0;
@@ -40,5 +46,27 @@ void main() {
 
     expect(firstDefinitionRuns, 1);
     expect(secondDefinitionRuns, 1);
+  });
+
+  test('formats feature loading errors with the affected patterns', () async {
+    final configuration = TestConfiguration(
+      features: ['sample.feature'],
+      featureFileMatcher: _SingleFeatureMatcher(),
+      featureFileReader: _FailingFeatureReader(),
+    );
+
+    await expectLater(
+      GherkinRunner().run(configuration),
+      throwsA(
+        isA<Exception>().having(
+          (error) => error.toString(),
+          'message',
+          contains(
+            'Error while loading feature files for patterns sample.feature: '
+            'Bad state: feature source unavailable',
+          ),
+        ),
+      ),
+    );
   });
 }

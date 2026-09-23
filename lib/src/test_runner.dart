@@ -119,10 +119,12 @@ class GherkinRunner {
 
       return featureFiles;
     } catch (e) {
+      if (e is GherkinException) {
+        rethrow;
+      }
       throw Exception(
-        'Error when trying to find feature files with patterns'
-        '${config.features.map((e) => e.toString()).join(', ')}`'
-        'ERROR: `$e`',
+        'Error while loading feature files for patterns '
+        '${config.features.map((pattern) => pattern.toString()).join(', ')}: $e',
       );
     }
   }

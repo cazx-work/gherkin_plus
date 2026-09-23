@@ -3,14 +3,28 @@ import 'package:cucumber_messages/cucumber_messages.dart' as messages;
 
 import 'feature_model.dart';
 
-/// Parses standard Gherkin while keeping Cucumber Messages out of the runner API.
+/// Exposes Cucumber Gherkin parsing and a lightweight feature-model projection.
 class ParserBridge {
+  /// Returns the Cucumber Messages generated from [source].
+  ///
+  /// This is the full-fidelity API for callers that need rules, backgrounds,
+  /// scenario-outline pickles, parse errors, or source references.
+  Future<List<messages.Envelope>> parseMessages(
+    String source, {
+    required String uri,
+  }) async =>
+      generateMessages(
+        source,
+        uri,
+        const GherkinOptions(),
+      );
+
+  /// Returns a lightweight projection of the feature document.
+  ///
+  /// This projection includes direct scenarios only. Use [parseMessages] when
+  /// full Cucumber Gherkin structure and compiled pickles are required.
   Future<FeatureModel?> parse(String source, {required String uri}) async {
-    final envelopes = generateMessages(
-      source,
-      uri,
-      const GherkinOptions(includeGherkinDocument: true),
-    );
+    final envelopes = await parseMessages(source, uri: uri);
     for (final envelope in envelopes) {
       final document = envelope.gherkinDocument;
       if (document == null) {

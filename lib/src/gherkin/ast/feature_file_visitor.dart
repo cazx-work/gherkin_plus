@@ -1,6 +1,5 @@
 import '../../../gherkin.dart';
-import '../parser.dart';
-import '../runnables/scenario_outline.dart';
+import '../cucumber_gherkin_parser.dart';
 import '../runnables/tags.dart';
 
 class FeatureFileVisitor {
@@ -10,11 +9,11 @@ class FeatureFileVisitor {
     LanguageService languageService,
     MessageReporter reporter,
   ) async {
-    final featureFile = await GherkinParser().parseFeatureFile(
+    final featureFile = await CucumberGherkinParser().parseFeatureFile(
       featureFileContents,
       path,
       reporter,
-      languageService,
+      languageService.defaultLanguage,
     );
 
     for (final feature in featureFile.features) {
@@ -29,9 +28,7 @@ class FeatureFileVisitor {
         final scenario = feature.scenarios.elementAt(i);
         final isFirst = i == 0;
         final isLast = i == (feature.scenarios.length - 1);
-        final allScenarios = scenario is ScenarioOutlineRunnable
-            ? scenario.expandOutlinesIntoScenarios()
-            : [scenario];
+        final allScenarios = [scenario];
         var acknowledgedScenarioPosition = false;
 
         for (final childScenario in allScenarios) {
@@ -48,18 +45,6 @@ class FeatureFileVisitor {
           );
 
           acknowledgedScenarioPosition = true;
-
-          if (feature.background != null) {
-            final bg = feature.background;
-
-            for (final step in bg!.steps) {
-              await visitScenarioStep(
-                step.name,
-                step.multilineStrings,
-                step.table,
-              );
-            }
-          }
 
           for (final step in childScenario.steps) {
             await visitScenarioStep(

@@ -23,6 +23,26 @@ class _FeatureReader implements FeatureFileReader {
   Future<String> read(String path) async => source;
 }
 
+class _MessageCaptureReporter extends Reporter implements MessageReporter {
+  final messages = <(String, MessageLevel)>[];
+
+  @override
+  Future<void> message(String message, MessageLevel level) async {
+    messages.add((message, level));
+  }
+}
+
+class _StepLocationReporter extends Reporter implements StepReporter {
+  int? lineNumber;
+
+  @override
+  ReportActionHandler<StepMessage> get step => ReportActionHandler(
+    onStarted: ([message]) async {
+      lineNumber = message?.context.lineNumber;
+    },
+  );
+}
+
 const _pickleFeature = '''
 @feature
 Feature: Cucumber parser integration
@@ -154,5 +174,56 @@ Fonctionnalité: Langue par défaut
     await GherkinRunner().run(configuration);
 
     expect(stepRuns, 1);
+  });
+
+  test('preserves original step line numbers when injecting a language', () async {
+    final locationReporter = _StepLocationReporter();
+    final configuration = TestConfiguration(
+      features: ['french.feature'],
+      featureDefaultLanguage: 'fr',
+      featureFileMatcher: _FeatureMatcher(),
+      featureFileReader: const _FeatureReader('''
+    Fonctionnalité: Langue par défaut
+  Scénario: dialecte configuré
+    Soit le message est bonjour
+'''),
+      createWorld: (_) async => _World(),
+      reporters: [locationReporter],
+      stepDefinitions: [
+        given<_World>('le message est bonjour', (_) async {}),
+      ],
+    );
+
+    await GherkinRunner().run(configuration);
+
+    expect(locationReporter.lineNumber, 2);
+  });
+
+  test('reports malformed Gherkin with a typed syntax exception', () async {
+    final messageReporter = _MessageCaptureReporter();
+    final configuration = TestConfiguration(
+      features: ['broken.feature'],
+      featureFileMatcher: _FeatureMatcher(),
+      featureFileReader: const _FeatureReader('''
+    Scenario: orphan
+  Given a step
+'''),
+      reporters: [messageReporter],
+    );
+
+    await expectLater(
+      GherkinRunner().run(configuration),
+      throwsA(isA<GherkinSyntaxException>()),
+    );
+    expect(
+      messageReporter.messages,
+      contains(
+        predicate<(String, MessageLevel)>(
+          (entry) =>
+              entry.$2 == MessageLevel.error &&
+              entry.$1.contains('Gherkin parse error at cucumber.feature'),
+        ),
+      ),
+    );
   });
 }
