@@ -1,16 +1,15 @@
 # gherkin_plus
 
-A Gherkin parser and test runner for modern Dart applications. The core package
-keeps step definitions, worlds, hooks, reporters, and feature execution
-independent of Flutter. Flutter adapters can integrate `WidgetTester` and other
-application-specific test harnesses separately.
+`gherkin_plus` is a fork of [`gherkin`](https://pub.dev/packages/gherkin).
+Started it to bring the package up to date and use Cucumber's
+[`cucumber_gherkin`](https://pub.dev/packages/cucumber_gherkin) parser instead
+of maintaining a separate Gherkin parser here. That keeps parsing aligned with
+the implementation Cucumber's community supports. The runner stays independent
+of Flutter; Flutter-specific integrations can live in adapters.
 
-[`cucumber_gherkin`](https://pub.dev/packages/cucumber_gherkin) is the package's
-Gherkin parser. `GherkinRunner`, `FeatureStepSelector`, and `FeatureFileVisitor`
-use its parsed documents and compiled pickles; the runner adapts those pickles
-to the existing Dart execution API. This preserves expanded outline rows,
-background steps, inherited tags, data tables, and doc strings without a second
-Gherkin parser implementation.
+`GherkinRunner`, `FeatureStepSelector`, and `FeatureFileVisitor` use Cucumber's
+parsed documents and compiled pickles. Pickles include expanded outline rows,
+background steps, inherited tags, data tables, and doc strings.
 
 `ParserBridge.parseMessages()` exposes the full Cucumber Messages output,
 including the Gherkin document and compiled pickles. `ParserBridge.parse()` is a
