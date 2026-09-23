@@ -59,4 +59,5 @@ export 'src/reporters/serializable_reporter.dart';
 export 'src/reporters/stdout_reporter.dart';
 export 'src/reporters/test_run_summary_reporter.dart';
 export 'src/step_definition_selector.dart';
+export 'src/step_definition_timeout.dart';
 export 'src/test_runner.dart';
