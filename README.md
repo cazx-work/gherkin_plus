@@ -5,13 +5,14 @@ keeps step definitions, worlds, hooks, reporters, and feature execution
 independent of Flutter. Flutter adapters can integrate `WidgetTester` and other
 application-specific test harnesses separately.
 
-For direct access to the modern parser boundary, `ParserBridge` maps
-`cucumber_gherkin` Cucumber Messages into the package's internal feature model.
-It is currently a standalone parsing API, not the parser used by execution.
-`GherkinRunner` and `FeatureStepSelector` use the execution parser so their
-behavior stays aligned. The bridge model does not yet preserve all execution
-constructs, including backgrounds, expanded scenario-outline rows, data tables,
-and doc strings; unifying these paths requires completing that mapping first.
+`GherkinRunner` and `FeatureStepSelector` use `cucumber_gherkin` to parse
+features and compile executable pickles. The pickles preserve expanded outline
+rows, background steps, inherited tags, data tables, and doc strings before
+being adapted to the runner's execution model.
+
+`ParserBridge` is also available for direct access to Cucumber Messages. It
+returns a lightweight feature model for inspection; use the runner or selector
+when you need compiled scenario and step arguments.
 
 ```dart
 final feature = await ParserBridge().parse(source, uri: 'features/sign_in.feature');

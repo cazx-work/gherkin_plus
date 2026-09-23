@@ -11,4 +11,4 @@ Feature: Calculator can work with strings
       | characters | result |
       | abc        | 294    |
       | a b c      | 358    |
-      | a \n b \c  | 684    |
+      | a \\n b \\c  | 684    |

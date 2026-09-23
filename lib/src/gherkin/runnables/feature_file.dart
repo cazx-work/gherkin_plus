@@ -12,7 +12,7 @@ class FeatureFile extends RunnableBlock {
 
   List<FeatureRunnable> features = <FeatureRunnable>[];
 
-  FeatureFile(super.debug);
+  FeatureFile(super.debug, {String language = 'en'}) : _language = language;
 
   String get language => _language;
 

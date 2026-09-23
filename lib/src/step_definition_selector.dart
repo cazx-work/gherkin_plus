@@ -1,10 +1,9 @@
 import 'dart:io';
 
 import 'gherkin/expressions/gherkin_expression.dart';
-import 'gherkin/languages/language_service.dart';
+import 'gherkin/cucumber_gherkin_parser.dart';
 import 'gherkin/parameters/custom_parameter.dart';
 import 'gherkin/parameters/default_parameters.dart';
-import 'gherkin/parser.dart';
 import 'gherkin/runnables/feature_file.dart';
 import 'gherkin/steps/step_definition.dart';
 import 'reporters/message_level.dart';
@@ -37,8 +36,8 @@ class FeatureStepSelection {
   FeatureStepSelection({
     required Iterable<StepDefinitionGeneric> definitions,
     required Iterable<FeatureStepMatch> matches,
-  })  : definitions = List.unmodifiable(definitions),
-        matches = List.unmodifiable(matches);
+  }) : definitions = List.unmodifiable(definitions),
+       matches = List.unmodifiable(matches);
 
   final List<StepDefinitionGeneric> definitions;
   final List<FeatureStepMatch> matches;
@@ -63,12 +62,11 @@ class FeatureStepSelector {
     required Iterable<StepDefinitionGeneric> stepDefinitions,
     Iterable<CustomParameter<dynamic>> customParameters = const [],
   }) async {
-    final languageService = LanguageService()..initialise(defaultLanguage);
-    final featureFile = await GherkinParser().parseFeatureFile(
+    final featureFile = await CucumberGherkinParser().parseFeatureFile(
       source,
       uri,
       _SilentMessageReporter(),
-      languageService,
+      defaultLanguage,
     );
 
     return _selectParsedFeature(
@@ -83,13 +81,12 @@ class FeatureStepSelector {
     required String path,
     required Iterable<StepDefinitionGeneric> stepDefinitions,
     Iterable<CustomParameter<dynamic>> customParameters = const [],
-  }) async =>
-      select(
-        source: await File(path).readAsString(),
-        uri: path,
-        stepDefinitions: stepDefinitions,
-        customParameters: customParameters,
-      );
+  }) async => select(
+    source: await File(path).readAsString(),
+    uri: path,
+    stepDefinitions: stepDefinitions,
+    customParameters: customParameters,
+  );
 
   FeatureStepSelection _selectParsedFeature({
     required FeatureFile featureFile,
@@ -104,18 +101,20 @@ class FeatureStepSelector {
 
     for (final feature in featureFile.features) {
       for (final scenario in feature.scenarios) {
-        final steps = [
-          ...?feature.background?.steps,
-          ...scenario.steps,
-        ];
+        final steps = [...?feature.background?.steps, ...scenario.steps];
 
         for (final step in steps) {
-          final candidates = definitions.where((definition) {
-            final pattern = definition.pattern is RegExp
-                ? definition.pattern as RegExp
-                : RegExp(definition.pattern.toString());
-            return GherkinExpression(pattern, parameters).isMatch(step.stepText);
-          }).toList(growable: false);
+          final candidates = definitions
+              .where((definition) {
+                final pattern = definition.pattern is RegExp
+                    ? definition.pattern as RegExp
+                    : RegExp(definition.pattern.toString());
+                return GherkinExpression(
+                  pattern,
+                  parameters,
+                ).isMatch(step.stepText);
+              })
+              .toList(growable: false);
 
           matches.add(
             FeatureStepMatch(

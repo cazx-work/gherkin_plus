@@ -2,8 +2,8 @@ import 'dart:async';
 
 import '../gherkin.dart';
 import 'feature_file_runner.dart';
+import 'gherkin/cucumber_gherkin_parser.dart';
 import 'gherkin/parameters/default_parameters.dart';
-import 'gherkin/parser.dart';
 import 'gherkin/runnables/feature_file.dart';
 
 class GherkinRunner {
@@ -17,8 +17,7 @@ class GherkinRunner {
 
   final _reporter = AggregatedReporter();
   final _hook = AggregatedHook();
-  final _parser = GherkinParser();
-  final _languageService = LanguageService();
+  final _parser = CucumberGherkinParser();
   final _tagExpressionEvaluator = TagExpressionEvaluator();
   final List<ExecutableStep> _executableSteps = <ExecutableStep>[];
   final List<CustomParameter> _customParameters = <CustomParameter>[];
@@ -34,8 +33,6 @@ class GherkinRunner {
       ...?config.stepDefinitions,
       ...?config.stepDefinitionGroups?.expand((group) => group.definitions),
     ]);
-    _languageService.initialise(config.featureDefaultLanguage);
-
     var featureFiles = await _getFeatureFiles(config);
 
     var allFeaturesPassed = true;
@@ -101,7 +98,7 @@ class GherkinRunner {
             contents,
             path,
             _reporter,
-            _languageService,
+            config.featureDefaultLanguage,
           );
 
           featureFiles.add(featureFile);
