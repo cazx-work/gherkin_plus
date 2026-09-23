@@ -9,10 +9,10 @@ import 'package:test/test.dart';
 void main() {
   group('GherkinExpression', () {
     test('parse simple regex expression correctly', () async {
-      final parser = GherkinExpression(
-        RegExp('I (open|close) the drawer'),
-        [WordParameterLower(), WordParameterCamel()],
-      );
+      final parser = GherkinExpression(RegExp('I (open|close) the drawer'), [
+        WordParameterLower(),
+        WordParameterCamel(),
+      ]);
 
       expect(parser.isMatch('I open the drawer'), equals(true));
       expect(parser.isMatch('I close the drawer'), equals(true));
@@ -20,46 +20,48 @@ void main() {
       expect(parser.getParameters('I close the drawer'), equals(['close']));
     });
 
-    test('parse complex regex with custom parameters expression correctly',
-        () async {
-      final parser = GherkinExpression(
-        RegExp(
-          'I (open|close) the drawer {int} time(s) and find {word} which is (good|bad)',
-        ),
-        [WordParameterLower(), IntParameterLower(), PluralParameter()],
-      );
+    test(
+      'parse complex regex with custom parameters expression correctly',
+      () async {
+        final parser = GherkinExpression(
+          RegExp(
+            'I (open|close) the drawer {int} time(s) and find {word} which is (good|bad)',
+          ),
+          [WordParameterLower(), IntParameterLower(), PluralParameter()],
+        );
 
-      expect(
-        parser.isMatch(
-          "I open the drawer 2 times and find 'socks' which is good",
-        ),
-        equals(true),
-      );
-      expect(
-        parser.isMatch(
-          "I close the drawer 1 time and find 'pants' which is good",
-        ),
-        equals(true),
-      );
-      expect(
-        parser.isMatch(
-          "I sausage the drawer 919293 times and find 'parsley' which is good",
-        ),
-        equals(false),
-      );
-      expect(
-        parser.getParameters(
-          "I open the drawer 6 times and find 'socks' which is bad",
-        ),
-        equals(['open', 6, 'socks', 'bad']),
-      );
-    });
+        expect(
+          parser.isMatch(
+            "I open the drawer 2 times and find 'socks' which is good",
+          ),
+          equals(true),
+        );
+        expect(
+          parser.isMatch(
+            "I close the drawer 1 time and find 'pants' which is good",
+          ),
+          equals(true),
+        );
+        expect(
+          parser.isMatch(
+            "I sausage the drawer 919293 times and find 'parsley' which is good",
+          ),
+          equals(false),
+        );
+        expect(
+          parser.getParameters(
+            "I open the drawer 6 times and find 'socks' which is bad",
+          ),
+          equals(['open', 6, 'socks', 'bad']),
+        );
+      },
+    );
 
     test('parse simple {word} expression correctly', () async {
-      final parser = GherkinExpression(
-        RegExp('I am {word} as {Word}'),
-        [WordParameterLower(), WordParameterCamel()],
-      );
+      final parser = GherkinExpression(RegExp('I am {word} as {Word}'), [
+        WordParameterLower(),
+        WordParameterCamel(),
+      ]);
 
       expect(parser.isMatch("I am 'happy'"), equals(false));
       expect(parser.isMatch("I am 'happy' as 'Larry'"), equals(true));
@@ -70,14 +72,26 @@ void main() {
     });
 
     test('parse simple {string} expression correctly', () async {
-      final parser =
-          GherkinExpression(RegExp('I am {string}'), [StringParameterLower()]);
+      final parser = GherkinExpression(RegExp('I am {string}'), [
+        StringParameterLower(),
+      ]);
 
       expect(parser.isMatch("I am 'happy as Larry'"), equals(true));
       expect(
         parser.getParameters("I am 'happy as Larry'"),
         equals(['happy as Larry']),
       );
+    });
+
+    test('matches {string} values containing newlines after expansion', () {
+      final parser = GherkinExpression(RegExp('the characters {string}'), [
+        StringParameterLower(),
+      ]);
+
+      expect(parser.isMatch('the characters "a \n b \\c"'), isTrue);
+      expect(parser.getParameters('the characters "a \n b \\c"'), [
+        'a \n b \\c',
+      ]);
     });
 
     test('parse simple {int} expression correctly', () async {
@@ -141,16 +155,17 @@ void main() {
 
     test('parse complex expression correctly', () async {
       final parser = GherkinExpression(
-          RegExp(
-            '{word} {int} {string} {int} (?:jon|laurie) {float} {word} {float} cucumber(s)',
-          ),
-          [
-            WordParameterLower(),
-            StringParameterLower(),
-            IntParameterLower(),
-            FloatParameterLower(),
-            PluralParameter()
-          ]);
+        RegExp(
+          '{word} {int} {string} {int} (?:jon|laurie) {float} {word} {float} cucumber(s)',
+        ),
+        [
+          WordParameterLower(),
+          StringParameterLower(),
+          IntParameterLower(),
+          FloatParameterLower(),
+          PluralParameter(),
+        ],
+      );
 
       expect(
         parser.isMatch(
