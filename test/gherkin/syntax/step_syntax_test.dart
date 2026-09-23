@@ -1,8 +1,8 @@
-import 'package:gherkin/src/gherkin/runnables/debug_information.dart';
-import 'package:gherkin/src/gherkin/runnables/step.dart';
-import 'package:gherkin/src/gherkin/syntax/multiline_string_syntax.dart';
-import 'package:gherkin/src/gherkin/syntax/step_syntax.dart';
-import 'package:gherkin/src/gherkin/syntax/table_line_syntax.dart';
+import 'package:gherkin_plus/src/gherkin/runnables/debug_information.dart';
+import 'package:gherkin_plus/src/gherkin/runnables/step.dart';
+import 'package:gherkin_plus/src/gherkin/syntax/multiline_string_syntax.dart';
+import 'package:gherkin_plus/src/gherkin/syntax/step_syntax.dart';
+import 'package:gherkin_plus/src/gherkin/syntax/table_line_syntax.dart';
 import 'package:test/test.dart';
 
 import '../../mocks/en_dialect_mock.dart';

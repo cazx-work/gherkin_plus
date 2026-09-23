@@ -28,10 +28,8 @@ class ScenarioRunnable extends TaggableRunnableBlock {
     switch (child.runtimeType) {
       case StepRunnable:
         steps.add(child as StepRunnable);
-        break;
       case TextLineRunnable:
         description = (child as TextLineRunnable).text;
-        break;
       case CommentLineRunnable:
       case EmptyLineRunnable:
         break;

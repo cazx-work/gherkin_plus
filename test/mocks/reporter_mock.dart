@@ -1,4 +1,4 @@
-import 'package:gherkin/gherkin.dart';
+import 'package:gherkin_plus/gherkin.dart';
 
 typedef OnStepFinished = void Function(StepMessage message);
 

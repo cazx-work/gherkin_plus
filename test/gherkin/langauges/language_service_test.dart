@@ -1,4 +1,4 @@
-import 'package:gherkin/src/gherkin/languages/language_service.dart';
+import 'package:gherkin_plus/src/gherkin/languages/language_service.dart';
 import 'package:test/test.dart';
 
 void main() {

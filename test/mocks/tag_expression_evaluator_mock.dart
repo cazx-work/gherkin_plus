@@ -1,4 +1,4 @@
-import 'package:gherkin/src/gherkin/expressions/tag_expression.dart';
+import 'package:gherkin_plus/src/gherkin/expressions/tag_expression.dart';
 
 class MockTagExpressionEvaluator implements TagExpressionEvaluator {
   @override

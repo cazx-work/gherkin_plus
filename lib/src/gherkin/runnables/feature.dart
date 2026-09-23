@@ -28,10 +28,8 @@ class FeatureRunnable extends TaggableRunnableBlock {
       case TextLineRunnable:
         description =
             "${description == null ? "" : "$description\n"}${(child as TextLineRunnable).text}";
-        break;
       case TagsRunnable:
         _tagsPendingAssignmentToChild.add(child as TagsRunnable);
-        break;
       case ScenarioRunnable:
       case ScenarioOutlineRunnable:
         Iterable<ScenarioRunnable> childScenarios = [child as ScenarioRunnable];
@@ -47,7 +45,6 @@ class FeatureRunnable extends TaggableRunnableBlock {
           _tagsPendingAssignmentToChild.clear();
         }
 
-        break;
       case BackgroundRunnable:
         if (background == null) {
           background = child as BackgroundRunnable;
@@ -57,7 +54,6 @@ class FeatureRunnable extends TaggableRunnableBlock {
             "File'${debug.filePath}' :: line '${child.debug.lineNumber}'",
           );
         }
-        break;
       case EmptyLineRunnable:
       case CommentLineRunnable:
         break;

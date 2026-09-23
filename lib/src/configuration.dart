@@ -14,9 +14,11 @@ import 'reporters/stdout_reporter.dart';
 import 'reporters/test_run_summary_reporter.dart';
 
 typedef CreateWorld = Future<World> Function(TestConfiguration config);
-typedef CreateAttachmentManager = Future<AttachmentManager> Function(
-  TestConfiguration config,
-);
+typedef CreateAttachmentManager =
+    Future<AttachmentManager> Function(TestConfiguration config);
+
+/// The configuration name used by the modern runner API.
+typedef GherkinConfiguration = TestConfiguration;
 
 enum ExecutionOrder { sequential, random, alphabetical }
 
@@ -119,12 +121,12 @@ class TestConfiguration {
     this.createWorld,
     this.stepMaxRetries = 0,
     this.retryDelay = const Duration(seconds: 2),
-  })  : features = [RegExp(featurePath)],
-        reporters = [
-          StdoutReporter(MessageLevel.error),
-          ProgressReporter(),
-          TestRunSummaryReporter(),
-          JsonReporter(),
-        ],
-        stepDefinitions = steps;
+  }) : features = [RegExp(featurePath)],
+       reporters = [
+         StdoutReporter(MessageLevel.error),
+         ProgressReporter(),
+         TestRunSummaryReporter(),
+         JsonReporter(),
+       ],
+       stepDefinitions = steps;
 }

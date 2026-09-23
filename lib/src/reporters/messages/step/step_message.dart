@@ -19,8 +19,8 @@ class StepMessage extends ActionMessage {
 
   /// {@macro messages.stepmessage}
   StepMessage({
-    required String name,
-    required RunnableDebugInformation context,
+    required super.name,
+    required super.context,
     this.tags = const [],
     this.table,
     this.multilineString,
@@ -28,8 +28,6 @@ class StepMessage extends ActionMessage {
     this.attachments,
   }) : super(
           target: Target.step,
-          name: name,
-          context: context,
         );
 
   StepMessage copyWith({

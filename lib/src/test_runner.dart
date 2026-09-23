@@ -6,6 +6,14 @@ import 'gherkin/parser.dart';
 import 'gherkin/runnables/feature_file.dart';
 
 class GherkinRunner {
+  GherkinRunner([this.configuration]);
+
+  final TestConfiguration? configuration;
+
+  /// Runs the configured feature suite.
+  Future<void> run([TestConfiguration? config]) =>
+      execute(config ?? configuration ?? TestConfiguration());
+
   final _reporter = AggregatedReporter();
   final _hook = AggregatedHook();
   final _parser = GherkinParser();
@@ -111,7 +119,7 @@ class GherkinRunner {
       throw Exception(
         'Error when trying to find feature files with patterns'
         '${config.features.map((e) => e.toString()).join(', ')}`'
-        'ERROR: `${e.toString()}`',
+        'ERROR: `$e`',
       );
     }
   }

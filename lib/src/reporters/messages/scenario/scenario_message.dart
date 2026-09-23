@@ -14,17 +14,13 @@ class ScenarioMessage extends ActionMessage {
 
   /// {@macro messages.scenariomessage}
   ScenarioMessage({
-    required String name,
-    required RunnableDebugInformation context,
+    required super.name,
+    required super.context,
     this.description,
     this.hasPassed = false,
     this.tags = const [],
-    Target target = Target.scenario,
-  }) : super(
-          target: target,
-          name: name,
-          context: context,
-        );
+    super.target = Target.scenario,
+  });
 
   ScenarioMessage copyWith({
     String? name,

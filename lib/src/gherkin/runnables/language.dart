@@ -1,7 +1,6 @@
 import '../languages/dialect.dart';
 import '../languages/language_service.dart';
 
-import 'debug_information.dart';
 import 'dialect_block.dart';
 
 class LanguageRunnable extends DialectBlock {
@@ -10,7 +9,7 @@ class LanguageRunnable extends DialectBlock {
   @override
   String get name => 'Language';
 
-  LanguageRunnable(RunnableDebugInformation debug) : super(debug);
+  LanguageRunnable(super.debug);
 
   @override
   GherkinDialect getDialect(LanguageService languageService) =>

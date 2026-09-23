@@ -1,7 +1,6 @@
 import '../models/table.dart';
 import '../models/table_row.dart';
 import 'comment_line.dart';
-import 'debug_information.dart';
 import 'runnable.dart';
 import 'runnable_block.dart';
 
@@ -11,14 +10,13 @@ class TableRunnable extends RunnableBlock {
   @override
   String get name => 'Table';
 
-  TableRunnable(RunnableDebugInformation debug) : super(debug);
+  TableRunnable(super.debug);
 
   @override
   void addChild(Runnable child) {
     switch (child.runtimeType) {
       case TableRunnable:
         rows.addAll((child as TableRunnable).rows);
-        break;
       case CommentLineRunnable:
         break;
       default:

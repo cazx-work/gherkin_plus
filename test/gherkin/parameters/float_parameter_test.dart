@@ -1,4 +1,4 @@
-import 'package:gherkin/src/gherkin/parameters/float_parameter.dart';
+import 'package:gherkin_plus/src/gherkin/parameters/float_parameter.dart';
 import 'package:test/test.dart';
 
 void main() {

@@ -1,6 +1,6 @@
 import 'dart:async';
-import 'package:gherkin/gherkin.dart';
-import 'package:gherkin/src/expect/expect_mimic.dart';
+import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/src/expect/expect_mimic.dart';
 import 'package:test/test.dart';
 
 import '../../mocks/reporter_mock.dart';
@@ -10,10 +10,10 @@ class StepDefinitionMock extends StepDefinitionGeneric<World> {
   final Func0<Future<void>>? code;
 
   StepDefinitionMock(
-    StepDefinitionConfiguration config,
-    int expectParameterCount, [
+    StepDefinitionConfiguration super.config,
+    super.expectParameterCount, [
     this.code,
-  ]) : super(config, expectParameterCount);
+  ]);
 
   @override
   Future<void> onRun(Iterable parameters) async {

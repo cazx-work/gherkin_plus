@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:gherkin/gherkin.dart';
+import 'package:gherkin_plus/gherkin.dart';
 import 'package:test/test.dart';
 
 class TestableJsonReporter extends JsonReporter {

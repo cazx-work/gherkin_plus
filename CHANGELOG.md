@@ -1,3 +1,9 @@
+## [0.1.0-dev.1] - 2026-09-23
+- Renamed the package to `gherkin_plus` and updated the Dart/dependency baseline.
+- Added `GherkinConfiguration` and `GherkinRunner.run` as modern entry points while retaining the existing API.
+- Added a Cucumber Messages parser bridge and internal feature model using `cucumber_gherkin`.
+- Upgraded the direct `matcher` and `test` dependencies to their current compatible releases.
+
 ## [3.1.0] - 01/07/2022
 - Fix #40 scenarios can now contain descriptions
 - Json reporter: ensure exceptions, statuses and scenario descriptions are reported correctly

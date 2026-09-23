@@ -1,4 +1,4 @@
-import 'package:gherkin/src/gherkin/syntax/empty_line_syntax.dart';
+import 'package:gherkin_plus/src/gherkin/syntax/empty_line_syntax.dart';
 import 'package:test/test.dart';
 
 import '../../mocks/en_dialect_mock.dart';

@@ -1,5 +1,4 @@
 import 'comment_line.dart';
-import 'debug_information.dart';
 import 'empty_line.dart';
 import 'feature.dart';
 import 'language.dart';
@@ -13,7 +12,7 @@ class FeatureFile extends RunnableBlock {
 
   List<FeatureRunnable> features = <FeatureRunnable>[];
 
-  FeatureFile(RunnableDebugInformation debug) : super(debug);
+  FeatureFile(super.debug);
 
   String get language => _language;
 
@@ -22,10 +21,8 @@ class FeatureFile extends RunnableBlock {
     switch (child.runtimeType) {
       case LanguageRunnable:
         _language = (child as LanguageRunnable).language;
-        break;
       case TagsRunnable:
         _tagsPendingAssignmentToChild.add(child as TagsRunnable);
-        break;
       case FeatureRunnable:
         features.add(child as FeatureRunnable);
         if (_tagsPendingAssignmentToChild.isNotEmpty) {
@@ -34,7 +31,6 @@ class FeatureFile extends RunnableBlock {
           }
           _tagsPendingAssignmentToChild.clear();
         }
-        break;
       case CommentLineRunnable:
       case EmptyLineRunnable:
         break;

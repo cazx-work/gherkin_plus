@@ -29,14 +29,10 @@ class ErroredStepResult extends StepResult {
   final StackTrace stackTrace;
 
   ErroredStepResult(
-    int elapsedMilliseconds,
-    StepExecutionResult result,
+    super.elapsedMilliseconds,
+    super.result,
     this.exception,
     this.stackTrace, {
-    String? resultReason,
-  }) : super(
-          elapsedMilliseconds,
-          result,
-          resultReason: resultReason,
-        );
+    super.resultReason,
+  });
 }

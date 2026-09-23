@@ -27,12 +27,10 @@ class JsonScenario {
       case null:
       case StepExecutionResult.passed:
       case StepExecutionResult.skipped:
-        break;
       case StepExecutionResult.fail:
       case StepExecutionResult.timeout:
       case StepExecutionResult.error:
         passed = false;
-        break;
     }
 
     currentStep.onFinish(message);
@@ -53,8 +51,8 @@ class JsonScenario {
     this.passed,
     List<JsonStep>? steps,
     Iterable<JsonTag>? tags,
-  })  : steps = steps ?? [],
-        tags = tags ?? [];
+  }) : steps = steps ?? [],
+       tags = tags ?? [];
 
   /// Parent feature
   JsonFeature? feature;
@@ -63,28 +61,27 @@ class JsonScenario {
   ///
   /// Only those [message.tags] with the `isInherited` flag are converted
   static JsonScenario from(ScenarioMessage message) => JsonScenario(
-        target: message.target,
-        name: message.name,
-        description: message.description,
-        line: message.context.nonZeroAdjustedLineNumber,
-        passed: message.hasPassed,
-        tags: message.tags
-            .where((t) => !t.isInherited)
-            .map((t) => JsonTag.fromMessageTag(t))
-            .toList(),
-      );
+    target: message.target,
+    name: message.name,
+    description: message.description,
+    line: message.context.nonZeroAdjustedLineNumber,
+    passed: message.hasPassed,
+    tags: message.tags
+        .where((t) => !t.isInherited)
+        .map((t) => JsonTag.fromMessageTag(t))
+        .toList(),
+  );
 
   /// Empty [JsonScenario] with one step [JsonStep.empty]
   static JsonScenario get empty => JsonScenario(
-        target: Target.scenario,
-        name: 'Unnamed',
-        description: 'An unnamed scenario is possible '
-            'if something is logged before any feature has started to execute',
-        line: 0,
-        steps: [
-          JsonStep.empty,
-        ],
-      );
+    target: Target.scenario,
+    name: 'Unnamed',
+    description:
+        'An unnamed scenario is possible '
+        'if something is logged before any feature has started to execute',
+    line: 0,
+    steps: [JsonStep.empty],
+  );
 
   /// Returns the [steps.last] if [steps.isEmpty]
   /// otherwise adds the [JsonStep.empty] value to the [steps]
@@ -98,13 +95,14 @@ class JsonScenario {
 
   Map<String, Object?> toJson() {
     final result = {
-      'keyword':
-          target == Target.scenarioOutline ? 'Scenario Outline' : 'Scenario',
+      'keyword': target == Target.scenarioOutline
+          ? 'Scenario Outline'
+          : 'Scenario',
       'type': 'scenario',
       'id': '${feature?.id};${name.toLowerCase()}',
       'name': name,
       'line': line,
-      'status': _calculateStatus()
+      'status': _calculateStatus(),
     };
 
     if (description?.isNotEmpty ?? false) {

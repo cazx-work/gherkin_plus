@@ -17,6 +17,14 @@ linter:
     always_use_package_imports: false
     prefer_relative_imports: true
     prefer_const_constructors: true
+    async_return_with_no_await: false
+    directives_ordering: false
+    library_annotations: false
+    unnecessary_async: false
+    unnecessary_breaks: false
+    unnecessary_ignore: false
+    switch_on_type: false
+    use_super_parameters: false
 
 # analyzer:
 #   exclude:

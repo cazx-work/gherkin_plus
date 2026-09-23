@@ -1,5 +1,4 @@
 import '../exceptions/syntax_error.dart';
-import 'debug_information.dart';
 import 'example.dart';
 import 'runnable.dart';
 import 'scenario.dart';
@@ -12,14 +11,10 @@ class ScenarioOutlineRunnable extends ScenarioRunnable {
   Iterable<ExampleRunnable> get examples => _examples;
 
   ScenarioOutlineRunnable(
-    String name,
-    String? description,
-    RunnableDebugInformation debug,
-  ) : super(
-          name,
-          description,
-          debug,
-        );
+    super.name,
+    super.description,
+    super.debug,
+  );
 
   @override
   void addChild(Runnable child) {
@@ -31,10 +26,8 @@ class ScenarioOutlineRunnable extends ScenarioRunnable {
         }
 
         _examples.add(child as ExampleRunnable);
-        break;
       case TagsRunnable:
         _pendingExampleTags = child as TagsRunnable;
-        break;
       default:
         super.addChild(child);
     }

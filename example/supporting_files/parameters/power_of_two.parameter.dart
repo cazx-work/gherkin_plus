@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:gherkin/gherkin.dart';
+import 'package:gherkin_plus/gherkin.dart';
 
 class PowerOfTwoParameter extends CustomParameter<int> {
   PowerOfTwoParameter()

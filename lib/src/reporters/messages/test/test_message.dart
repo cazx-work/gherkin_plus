@@ -4,15 +4,11 @@ class TestMessage extends ActionMessage {
   final List<Tag> tags;
 
   TestMessage({
-    required Target target,
-    required String name,
-    required RunnableDebugInformation context,
+    required super.target,
+    required super.name,
+    required super.context,
     this.tags = const [],
-  }) : super(
-          target: target,
-          name: name,
-          context: context,
-        );
+  });
 
   TestMessage copyWith({
     Target? target,

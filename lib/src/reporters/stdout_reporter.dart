@@ -17,10 +17,8 @@ class StdoutReporter implements InfoReporter {
 
   bool get supportsAnsiEscapes {
     try {
-      return _supportsAnsiEscapes != null
-          ? _supportsAnsiEscapes!
-          : stdout.supportsAnsiEscapes;
-    } catch (_, __) {
+      return _supportsAnsiEscapes ?? stdout.supportsAnsiEscapes;
+    } catch (_) {
       // stdout.supportsAnsiEscapes throws in the web environment
       // see https://github.com/dart-lang/sdk/blob/main/sdk/lib/_internal/js_dev_runtime/patch/io_patch.dart#L622
       return false;
@@ -29,7 +27,6 @@ class StdoutReporter implements InfoReporter {
 
   StdoutReporter([
     this.logLevel = MessageLevel.verbose,
-    // ignore: avoid_positional_boolean_parameters
     this._supportsAnsiEscapes,
   ]) {
     _writeln = (text) => stdout.writeln(text);
@@ -66,8 +63,7 @@ class StdoutReporter implements InfoReporter {
       case MessageLevel.warning:
         return kWarnColor;
       case MessageLevel.info:
-      default:
-        return kNeutralColor;
+      return kNeutralColor;
     }
   }
 

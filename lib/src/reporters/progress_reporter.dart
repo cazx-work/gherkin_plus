@@ -117,8 +117,6 @@ class ProgressReporter extends StdoutReporter
         return StdoutReporter.kWarnColor;
       case StepExecutionResult.timeout:
         return StdoutReporter.kFailColor;
-      default:
-        return StdoutReporter.kResetColor;
-    }
+      }
   }
 }

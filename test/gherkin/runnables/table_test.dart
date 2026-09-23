@@ -1,6 +1,6 @@
-import 'package:gherkin/gherkin.dart';
-import 'package:gherkin/src/gherkin/runnables/comment_line.dart';
-import 'package:gherkin/src/gherkin/runnables/table.dart';
+import 'package:gherkin_plus/gherkin.dart';
+import 'package:gherkin_plus/src/gherkin/runnables/comment_line.dart';
+import 'package:gherkin_plus/src/gherkin/runnables/table.dart';
 import 'package:test/test.dart';
 
 void main() {

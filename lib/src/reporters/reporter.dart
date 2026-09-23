@@ -26,11 +26,9 @@ class ReportActionHandler<S extends ActionMessage> {
   final StateAction<S> onFinished;
 
   /// {@macro reporter.reporteractionhandler}
-  ReportActionHandler({
-    ActionReport<S>? onStarted,
-    ActionReport<S>? onFinished,
-  })  : onStarted = StateAction<S>(action: onStarted),
-        onFinished = StateAction<S>(action: onFinished);
+  ReportActionHandler({ActionReport<S>? onStarted, ActionReport<S>? onFinished})
+    : onStarted = StateAction<S>(action: onStarted),
+      onFinished = StateAction<S>(action: onFinished);
 
   List<StateAction> get stateActions => [onStarted, onFinished];
 
@@ -46,9 +44,7 @@ class StateAction<T extends ActionMessage> {
   /// {@macro reporter.stateaction}
   ///
   /// [action] - an action is a callback function
-  StateAction({
-    ActionReport<T>? action,
-  }) : _action = action;
+  StateAction({ActionReport<T>? action}) : _action = action;
 
   /// The function of safely calling an action.
   /// Inside notifies listeners (calls [notifyListeners]).
@@ -152,8 +148,7 @@ mixin AllReporters implements Reporter {
   /// A function that allows you to combine a certain function
   /// for all [reporters] and call it as one
   Future<void> invokeReporters<T extends Reporter>(ReportInvoke<T> invoke) {
-    final validReportCallbacks =
-        reporters.whereType<T>().map(invoke).whereNotNull();
+    final validReportCallbacks = reporters.whereType<T>().map(invoke).nonNulls;
 
     return Future.wait(validReportCallbacks);
   }

@@ -23,7 +23,6 @@ class StepRunnable extends RunnableBlock {
       case MultilineStringRunnable:
         multilineStrings
             .add((child as MultilineStringRunnable).lines.join('\n'));
-        break;
       case TableRunnable:
         if (table != null) {
           throw GherkinSyntaxException(
@@ -32,7 +31,6 @@ class StepRunnable extends RunnableBlock {
         }
 
         table = (child as TableRunnable).toTable();
-        break;
       default:
         throw Exception(
           "Unknown runnable child given to Step '${child.runtimeType}'",

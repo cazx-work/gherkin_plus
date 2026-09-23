@@ -7,9 +7,9 @@ import 'world.dart';
 abstract class StepDefinitionBase<TWorld extends World>
     extends StepDefinitionGeneric<TWorld> {
   StepDefinitionBase(
-    StepDefinitionConfiguration? config,
-    int expectParameterCount,
-  ) : super(config, expectParameterCount);
+    super.config,
+    super.expectParameterCount,
+  );
 
   void expect(
     dynamic actual,
@@ -236,7 +236,7 @@ class GenericFunctionStepDefinition<TWorld extends World>
 
   @override
   RegExp get pattern =>
-      _pattern is RegExp ? _pattern as RegExp : RegExp(_pattern.toString());
+      _pattern is RegExp ? _pattern : RegExp(_pattern.toString());
 }
 
 StepDefinitionGeneric<TWorld>

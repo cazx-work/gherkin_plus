@@ -1,6 +1,6 @@
-import 'package:gherkin/src/gherkin/runnables/background.dart';
-import 'package:gherkin/src/gherkin/runnables/debug_information.dart';
-import 'package:gherkin/src/gherkin/syntax/background_syntax.dart';
+import 'package:gherkin_plus/src/gherkin/runnables/background.dart';
+import 'package:gherkin_plus/src/gherkin/runnables/debug_information.dart';
+import 'package:gherkin_plus/src/gherkin/syntax/background_syntax.dart';
 import 'package:test/test.dart';
 
 import '../../mocks/en_dialect_mock.dart';

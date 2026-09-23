@@ -55,7 +55,6 @@ class ExpectMimic {
       matcher,
       String? reason,
       Map<dynamic, dynamic> matchState,
-      // ignore: avoid_positional_boolean_parameters
       bool verbose,
     ) {
       final mismatchDescription = StringDescription();

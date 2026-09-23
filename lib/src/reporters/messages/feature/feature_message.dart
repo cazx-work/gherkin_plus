@@ -10,14 +10,12 @@ class FeatureMessage extends ActionMessage {
 
   /// {@macro messages.featuremessage}
   FeatureMessage({
-    required String name,
-    required RunnableDebugInformation context,
+    required super.name,
+    required super.context,
     this.tags = const [],
     this.description,
   }) : super(
           target: Target.feature,
-          name: name,
-          context: context,
         );
 
   FeatureMessage copyWith({

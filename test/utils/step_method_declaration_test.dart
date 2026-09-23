@@ -1,4 +1,4 @@
-import 'package:gherkin/gherkin.dart';
+import 'package:gherkin_plus/gherkin.dart';
 import 'package:test/test.dart';
 
 import '../mocks/reporter_mock.dart';

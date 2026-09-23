@@ -1,4 +1,4 @@
-import 'package:gherkin/src/gherkin/languages/dialect.dart';
+import 'package:gherkin_plus/src/gherkin/languages/dialect.dart';
 
 class FrDialectMock extends GherkinDialect {
   FrDialectMock()

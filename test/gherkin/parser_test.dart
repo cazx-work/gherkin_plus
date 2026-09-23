@@ -1,5 +1,5 @@
-import 'package:gherkin/src/gherkin/parser.dart';
-import 'package:gherkin/src/gherkin/runnables/tags.dart';
+import 'package:gherkin_plus/src/gherkin/parser.dart';
+import 'package:gherkin_plus/src/gherkin/runnables/tags.dart';
 import 'package:test/test.dart';
 import '../mocks/language_service_mock.dart';
 import '../mocks/reporter_mock.dart';

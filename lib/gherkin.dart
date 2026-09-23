@@ -1,6 +1,5 @@
-library gherkin;
-
 export 'src/configuration.dart';
+export 'src/feature_model.dart';
 // Parser
 export 'src/gherkin/ast/feature_file_visitor.dart';
 // Attachments
@@ -38,6 +37,7 @@ export 'src/gherkin/steps/step_run_result.dart';
 export 'src/gherkin/steps/then.dart';
 export 'src/gherkin/steps/when.dart';
 export 'src/gherkin/steps/world.dart';
+export 'src/parser_bridge.dart';
 export 'src/hooks/aggregated_hook.dart';
 // Hooks
 export 'src/hooks/hook.dart';

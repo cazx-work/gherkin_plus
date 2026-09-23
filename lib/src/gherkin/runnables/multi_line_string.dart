@@ -1,6 +1,5 @@
 import 'comment_line.dart';
 
-import 'debug_information.dart';
 import 'empty_line.dart';
 import 'runnable.dart';
 import 'runnable_block.dart';
@@ -15,9 +14,9 @@ class MultilineStringRunnable extends RunnableBlock {
   String get name => 'Multiline String';
 
   MultilineStringRunnable(
-    RunnableDebugInformation debug, {
+    super.debug, {
     this.leadingWhitespace,
-  }) : super(debug);
+  });
 
   @override
   void addChild(Runnable child) {
@@ -28,10 +27,8 @@ class MultilineStringRunnable extends RunnableBlock {
       case TextLineRunnable:
         final text = (child as TextLineRunnable).originalText ?? child.text;
         lines.add(stripLeadingIndentation(text));
-        break;
       case EmptyLineRunnable:
         lines.add('');
-        break;
       case CommentLineRunnable:
         // at the moment we ignore comments in multiline strings
         // this seems standard behaviour in other gherkin implementations

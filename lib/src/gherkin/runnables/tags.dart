@@ -1,4 +1,3 @@
-import 'debug_information.dart';
 import 'runnable.dart';
 
 class TagsRunnable extends Runnable {
@@ -8,7 +7,7 @@ class TagsRunnable extends Runnable {
   @override
   String get name => 'Tags';
 
-  TagsRunnable(RunnableDebugInformation debug) : super(debug);
+  TagsRunnable(super.debug);
 
   TagsRunnable clone({
     bool inherited = false,

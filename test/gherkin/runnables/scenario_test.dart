@@ -1,7 +1,7 @@
-import 'package:gherkin/src/gherkin/runnables/debug_information.dart';
-import 'package:gherkin/src/gherkin/runnables/empty_line.dart';
-import 'package:gherkin/src/gherkin/runnables/scenario.dart';
-import 'package:gherkin/src/gherkin/runnables/step.dart';
+import 'package:gherkin_plus/src/gherkin/runnables/debug_information.dart';
+import 'package:gherkin_plus/src/gherkin/runnables/empty_line.dart';
+import 'package:gherkin_plus/src/gherkin/runnables/scenario.dart';
+import 'package:gherkin_plus/src/gherkin/runnables/step.dart';
 import 'package:test/test.dart';
 
 void main() {

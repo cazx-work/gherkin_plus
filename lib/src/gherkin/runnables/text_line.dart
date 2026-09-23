@@ -1,4 +1,3 @@
-import 'debug_information.dart';
 import 'runnable.dart';
 
 class TextLineRunnable extends Runnable {
@@ -12,5 +11,5 @@ class TextLineRunnable extends Runnable {
   @override
   String get name => 'Language';
 
-  TextLineRunnable(RunnableDebugInformation debug) : super(debug);
+  TextLineRunnable(super.debug);
 }

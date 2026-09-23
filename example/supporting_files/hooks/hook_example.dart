@@ -1,6 +1,5 @@
-// ignore_for_file: avoid_print
 
-import 'package:gherkin/gherkin.dart';
+import 'package:gherkin_plus/gherkin.dart';
 
 class HookExample extends Hook {
   /// The priority to assign to this hook.

@@ -1,9 +1,9 @@
-import 'package:gherkin/src/gherkin/expressions/gherkin_expression.dart';
-import 'package:gherkin/src/gherkin/parameters/float_parameter.dart';
-import 'package:gherkin/src/gherkin/parameters/int_parameter.dart';
-import 'package:gherkin/src/gherkin/parameters/plural_parameter.dart';
-import 'package:gherkin/src/gherkin/parameters/string_parameter.dart';
-import 'package:gherkin/src/gherkin/parameters/word_parameter.dart';
+import 'package:gherkin_plus/src/gherkin/expressions/gherkin_expression.dart';
+import 'package:gherkin_plus/src/gherkin/parameters/float_parameter.dart';
+import 'package:gherkin_plus/src/gherkin/parameters/int_parameter.dart';
+import 'package:gherkin_plus/src/gherkin/parameters/plural_parameter.dart';
+import 'package:gherkin_plus/src/gherkin/parameters/string_parameter.dart';
+import 'package:gherkin_plus/src/gherkin/parameters/word_parameter.dart';
 import 'package:test/test.dart';
 
 void main() {
