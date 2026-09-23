@@ -1,7 +1,7 @@
 name: gherkin_plus
-version: 0.1.0-dev.1
+version: 0.1.0
 description: A modern, explicit Gherkin parser and runner for Dart applications.
-repository: https://github.com/jonsamwell/dart_gherkin
+repository: https://github.com/cazx-work/gherkin_plus
 
 dependencies:
   path: ^1.9.0

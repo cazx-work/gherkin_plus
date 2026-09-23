@@ -5,17 +5,23 @@ keeps step definitions, worlds, hooks, reporters, and feature execution
 independent of Flutter. Flutter adapters can integrate `WidgetTester` and other
 application-specific test harnesses separately.
 
-`GherkinRunner` and `FeatureStepSelector` use `cucumber_gherkin` to parse
-features and compile executable pickles. The pickles preserve expanded outline
-rows, background steps, inherited tags, data tables, and doc strings before
-being adapted to the runner's execution model.
+[`cucumber_gherkin`](https://pub.dev/packages/cucumber_gherkin) is the package's
+Gherkin parser. `GherkinRunner`, `FeatureStepSelector`, and `FeatureFileVisitor`
+use its parsed documents and compiled pickles; the runner adapts those pickles
+to the existing Dart execution API. This preserves expanded outline rows,
+background steps, inherited tags, data tables, and doc strings without a second
+Gherkin parser implementation.
 
-`ParserBridge` is also available for direct access to Cucumber Messages. It
-returns a lightweight feature model for inspection; use the runner or selector
-when you need compiled scenario and step arguments.
+`ParserBridge.parseMessages()` exposes the full Cucumber Messages output,
+including the Gherkin document and compiled pickles. `ParserBridge.parse()` is a
+lightweight compatibility projection for simple feature inspection; it omits
+rules, backgrounds, and compiled outline rows.
 
 ```dart
-final feature = await ParserBridge().parse(source, uri: 'features/sign_in.feature');
+final envelopes = await ParserBridge().parseMessages(
+  source,
+  uri: 'features/sign_in.feature',
+);
 ```
 
 For new runner code, use `GherkinConfiguration` with
@@ -53,6 +59,7 @@ The core package is independent of Flutter. Flutter-specific adapters can provid
   - [Step-definition groups](#step-definition-groups)
   - [Feature-step selection](#feature-step-selection)
   - [Timeout aggregation](#timeout-aggregation)
+  - [Step retries](#step-retries)
 - [Legacy API guide](#getting-started)
   - [Configuration](#configuration)
   - [Feature files](#features-files)
@@ -178,6 +185,30 @@ final timeout = maxStepDefinitionTimeout(
 
 This helper does not change runner configuration; consumers can use the result
 where their test harness needs an overall timeout.
+
+### Step retries
+
+Set `stepMaxRetries` to retry a step definition after a failed, errored, or
+timed-out attempt. The value is the number of additional attempts, not the
+total attempt count. `retryDelay` controls the wait between attempts. Retries
+are disabled by default (`stepMaxRetries: 0`); the default delay is two
+seconds and is only used when retries are enabled.
+
+```dart
+final configuration = GherkinConfiguration(
+  features: [RegExp(r'features/.*\.feature')],
+  stepDefinitions: [/* definitions */],
+  stepMaxRetries: 2,
+  retryDelay: const Duration(milliseconds: 250),
+);
+```
+
+Each attempt reruns the step definition with the same scenario world and
+arguments. Step hooks and reporter start/finish callbacks run once around the
+whole step, and receive the final result after retries are exhausted or an
+attempt passes. Use retries for transient failures; steps with non-idempotent
+side effects may not be safe to retry. A timed-out Dart future is not cancelled,
+so its work may continue while a retry starts.
 
 ## Getting Started
 
@@ -313,6 +344,13 @@ The order by which scenarios will be run. Running an a random order may highligh
 
 Defaults to `en`
 This specifies the default language the feature files are written in.  See https://cucumber.io/docs/gherkin/reference/#overview for supported languages.
+
+#### stepMaxRetries and retryDelay
+
+Retries are disabled by default. `stepMaxRetries` sets the number of additional
+attempts for failed, errored, or timed-out steps; `retryDelay` sets the delay
+between those attempts and defaults to two seconds. See [Step retries](#step-retries)
+for execution details and guidance about retrying steps with side effects.
 
 #### stepDefinitions
 

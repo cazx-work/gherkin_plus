@@ -1,7 +1,10 @@
-## [0.1.0-dev.1] - 2026-09-23
+## [0.1.0] - 2026-09-23
 - Renamed the package to `gherkin_plus` and updated the Dart/dependency baseline.
 - Added `GherkinConfiguration` and `GherkinRunner.run` as modern entry points while retaining the existing API.
-- Added a Cucumber Messages parser bridge and internal feature model using `cucumber_gherkin`.
+- Made `cucumber_gherkin` the sole Gherkin parser for execution, selection, and feature visitation; removed the duplicate handwritten parser.
+- Added a full-fidelity Cucumber Messages API alongside the lightweight compatibility feature model.
+- Implemented configured step retries and preserved typed Gherkin syntax exceptions during feature loading.
+- Added `GherkinDialectNotSupportedException`; retained the misspelled exception name as a deprecated compatibility alias.
 - Upgraded the direct `matcher` and `test` dependencies to their current compatible releases.
 
 ## [3.1.0] - 01/07/2022
