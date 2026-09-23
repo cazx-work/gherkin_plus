@@ -32,6 +32,7 @@ export 'src/gherkin/steps/executable_step.dart';
 export 'src/gherkin/steps/given.dart';
 export 'src/gherkin/steps/step_configuration.dart';
 export 'src/gherkin/steps/step_definition.dart';
+export 'src/gherkin/steps/step_definition_group.dart';
 export 'src/gherkin/steps/step_definition_implementations.dart';
 export 'src/gherkin/steps/step_run_result.dart';
 export 'src/gherkin/steps/then.dart';

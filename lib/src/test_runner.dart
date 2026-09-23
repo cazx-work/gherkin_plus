@@ -27,7 +27,10 @@ class GherkinRunner {
     _registerReporters(config.reporters);
     _registerHooks(config.hooks);
     _registerCustomParameters(config.customStepParameterDefinitions);
-    _registerStepDefinitions(config.stepDefinitions);
+    _registerStepDefinitions([
+      ...?config.stepDefinitions,
+      ...?config.stepDefinitionGroups?.expand((group) => group.definitions),
+    ]);
     _languageService.initialise(config.featureDefaultLanguage);
 
     var featureFiles = await _getFeatureFiles(config);

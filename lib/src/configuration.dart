@@ -1,6 +1,7 @@
 import 'gherkin/attachments/attachment_manager.dart';
 import 'gherkin/parameters/custom_parameter.dart';
 import 'gherkin/steps/step_definition.dart';
+import 'gherkin/steps/step_definition_group.dart';
 import 'gherkin/steps/world.dart';
 import 'hooks/hook.dart';
 import 'io/feature_file_matcher.dart';
@@ -42,6 +43,9 @@ class TestConfiguration {
 
   /// The user defined step definitions that are matched with written steps in the features
   final Iterable<StepDefinitionGeneric>? stepDefinitions;
+
+  /// Optional named groups of step definitions to register with [stepDefinitions].
+  final Iterable<StepDefinitionGroup>? stepDefinitionGroups;
 
   /// Any user defined step parameters
   final Iterable<CustomParameter<dynamic>>? customStepParameterDefinitions;
@@ -89,6 +93,7 @@ class TestConfiguration {
     this.stopAfterTestFailed = false,
     this.tagExpression,
     this.stepDefinitions,
+    this.stepDefinitionGroups,
     this.customStepParameterDefinitions,
     this.hooks,
     this.reporters = const [],
@@ -116,6 +121,7 @@ class TestConfiguration {
     this.featureFileReader = const IoFeatureFileAccessor(),
     this.stopAfterTestFailed = false,
     this.tagExpression,
+    this.stepDefinitionGroups,
     this.customStepParameterDefinitions,
     this.hooks,
     this.createWorld,
